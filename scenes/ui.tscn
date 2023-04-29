@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx2phey8s3yn7"]
+
+[ext_resource type="Script" path="res://scripts/UserInterface.cs" id="1_ox568"]
+
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "velocityLabel", "directionLabel")]
+script = ExtResource("1_ox568")
+carryingPackageLabel = NodePath("carrying")
+velocityLabel = NodePath("")
+directionLabel = NodePath("")
+
+[node name="carrying" type="Label" parent="."]
+offset_right = 67.0625
+offset_bottom = 31.0

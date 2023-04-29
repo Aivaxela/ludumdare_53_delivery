@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqedhqgxtfhse"]
+
+[ext_resource type="Script" path="res://scripts/MainCamera.cs" id="1_yi4it"]
+[ext_resource type="Texture2D" uid="uid://cxf5vsy2vr5b2" path="res://assets/bg.png" id="2_y5pls"]
+[ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="3_w4aud"]
+[ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="4_47512"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
+size = Vector2(980, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lw4xe"]
+size = Vector2(980, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ekuk"]
+size = Vector2(10, 1050)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmirw"]
+size = Vector2(10, 1050)
+
+[node name="main" type="Node"]
+
+[node name="mainCam" type="Camera2D" parent="."]
+script = ExtResource("1_yi4it")
+
+[node name="borders" type="Node" parent="."]
+
+[node name="top-border" type="StaticBody2D" parent="borders" groups=["borders", "top-border"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="top" type="CollisionShape2D" parent="borders/top-border"]
+position = Vector2(0, -265)
+shape = SubResource("RectangleShape2D_i8hu8")
+
+[node name="bottom-border" type="StaticBody2D" parent="borders" groups=["borders", "bottom-border"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="bottom" type="CollisionShape2D" parent="borders/bottom-border"]
+position = Vector2(0, 265)
+shape = SubResource("RectangleShape2D_lw4xe")
+
+[node name="side-borders" type="StaticBody2D" parent="borders" groups=["borders", "side-border"]]
+collision_layer = 20
+collision_mask = 0
+
+[node name="left" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(-475, -175)
+shape = SubResource("RectangleShape2D_5ekuk")
+
+[node name="right" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(475, -175)
+shape = SubResource("RectangleShape2D_fmirw")
+
+[node name="gradient-bg" type="Sprite2D" parent="."]
+texture = ExtResource("2_y5pls")
+
+[node name="player" parent="." instance=ExtResource("3_w4aud")]
+
+[node name="UI" parent="." instance=ExtResource("4_47512")]
