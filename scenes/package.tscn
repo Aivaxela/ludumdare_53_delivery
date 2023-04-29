@@ -89,8 +89,7 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_6riom")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = -0.0669044
-scale = Vector2(1.1, 0.9)
+rotation = 0.10472
 texture = ExtResource("1_hm10h")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
@@ -98,7 +97,7 @@ position = Vector2(-8, 11)
 amount = 12
 process_material = SubResource("ParticleProcessMaterial_8nahx")
 texture = ExtResource("3_a2vfv")
-lifetime = 3.0
+lifetime = 1.5
 
 [node name="check-wall-collision-timer" type="Timer" parent="."]
 wait_time = 0.1

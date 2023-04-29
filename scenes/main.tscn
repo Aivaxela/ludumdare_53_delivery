@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqedhqgxtfhse"]
+[gd_scene load_steps=10 format=3 uid="uid://bqedhqgxtfhse"]
 
 [ext_resource type="Script" path="res://scripts/MainCamera.cs" id="1_yi4it"]
-[ext_resource type="Texture2D" uid="uid://cxf5vsy2vr5b2" path="res://assets/bg.png" id="2_y5pls"]
 [ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="3_w4aud"]
+[ext_resource type="PackedScene" uid="uid://d1643t4upp0yh" path="res://scenes/parallax-background.tscn" id="4_5u38d"]
 [ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="4_47512"]
+[ext_resource type="PackedScene" uid="uid://5opuncc7eur3" path="res://goat-sucker.tscn" id="5_g4sjx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
 size = Vector2(980, 10)
@@ -21,6 +22,8 @@ size = Vector2(10, 1050)
 
 [node name="mainCam" type="Camera2D" parent="."]
 script = ExtResource("1_yi4it")
+
+[node name="UI" parent="." instance=ExtResource("4_47512")]
 
 [node name="borders" type="Node" parent="."]
 
@@ -52,9 +55,9 @@ shape = SubResource("RectangleShape2D_5ekuk")
 position = Vector2(475, -175)
 shape = SubResource("RectangleShape2D_fmirw")
 
-[node name="gradient-bg" type="Sprite2D" parent="."]
-texture = ExtResource("2_y5pls")
-
 [node name="player" parent="." instance=ExtResource("3_w4aud")]
 
-[node name="UI" parent="." instance=ExtResource("4_47512")]
+[node name="backgrounds" parent="." instance=ExtResource("4_5u38d")]
+
+[node name="goat-sucker" parent="." instance=ExtResource("5_g4sjx")]
+position = Vector2(425, -50)

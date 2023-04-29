@@ -3,17 +3,20 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-    public enum State { FLYING, DASHING, CARRYING }
+    public enum State { FLYING, DASHING }
     public State currentPlayerState;
 
     [Export] float speed;
     [Export] float speedDelta;
+    [Export] float dashSpeed;
     [Export] float inclineDrag;
     [Export] float declinePush;
 
     [Export] AnimationPlayer animationPlayer;
     [Export] Area2D packageArea;
+    [Export] Area2D enemyArea;
     [Export] Timer recollectPackageTimer;
+    [Export] Timer dashTimer;
 
     [Export] PackedScene attack;
     [Export] PackedScene package;
@@ -21,6 +24,9 @@ public partial class Player : CharacterBody2D
     public Vector2 velocity = Vector2.Zero;
     public Vector2 direction = Vector2.Zero;
     public bool hasPackage = true;
+    public int hp = 100;
+
+    Vector2 dashDirection;
     bool nearPackage = false;
 
 
@@ -30,6 +36,7 @@ public partial class Player : CharacterBody2D
 
         packageArea.BodyEntered += OnPackageAreaEntered;
         packageArea.BodyExited += OnPackageAreaExited;
+        enemyArea.BodyEntered += OnEnemyAreaEntered;
     }
 
     public override void _Process(double delta)
@@ -45,9 +52,6 @@ public partial class Player : CharacterBody2D
             case State.DASHING:
                 _Process_Dashing(delta);
                 break;
-            case State.CARRYING:
-                _Process_Carrying(delta);
-                break;
         }
 
         Velocity = velocity;
@@ -59,7 +63,6 @@ public partial class Player : CharacterBody2D
             GetParent().AddChild(newAttack);
             newAttack.GlobalPosition = GlobalPosition;
         }
-
 
         if (Input.IsActionJustPressed("toggle-package"))
         {
@@ -79,6 +82,18 @@ public partial class Player : CharacterBody2D
                 recollectPackageTimer.Start();
             }
         }
+
+        if (Input.IsActionJustPressed("dash") && currentPlayerState != State.DASHING)
+        {
+            dashDirection = direction;
+            animationPlayer.Play("dash");
+
+            if (dashDirection != Vector2.Zero)
+            {
+                currentPlayerState = State.DASHING;
+                dashTimer.Start();
+            }
+        }
     }
 
     public void _Process_Flying(double delta)
@@ -90,12 +105,13 @@ public partial class Player : CharacterBody2D
 
     public void _Process_Dashing(double delta)
     {
+        velocity = dashDirection * dashSpeed;
 
-    }
-
-    public void _Process_Carrying(double delta)
-    {
-
+        if (dashTimer.TimeLeft == 0)
+        {
+            velocity = velocity / 2;
+            currentPlayerState = State.FLYING;
+        }
     }
 
     private void GetMovementVector()
@@ -201,6 +217,9 @@ public partial class Player : CharacterBody2D
     {
         nearPackage = false;
         GD.Print("not near package");
-
+    }
+    private void OnEnemyAreaEntered(object _)
+    {
+        hp -= 10;
     }
 }

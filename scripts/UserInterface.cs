@@ -4,6 +4,7 @@ using System;
 public partial class UserInterface : CanvasLayer
 {
     [Export] Label carryingPackageLabel;
+    [Export] Label playerHPLabel;
 
     Player player;
 
@@ -22,5 +23,7 @@ public partial class UserInterface : CanvasLayer
         {
             carryingPackageLabel.Text = "You don't have the package!";
         }
+
+        playerHPLabel.Text = "HP: " + player.hp;
     }
 }

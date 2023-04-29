@@ -38,7 +38,6 @@ public partial class Attack : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        velocity.X = projectileSpeed;
         velocity = direction * projectileSpeed;
 
         Velocity = velocity;
