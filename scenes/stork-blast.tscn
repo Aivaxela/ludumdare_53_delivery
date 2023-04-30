@@ -68,11 +68,17 @@ orbit_velocity_max = 0.0
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="stork-blast" type="CharacterBody2D"]
+[node name="stork-blast" type="CharacterBody2D" node_paths=PackedStringArray("untilDestoryTimer")]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_tvb5n")
 projectileSpeed = 650.0
+untilDestoryTimer = NodePath("until-destroy")
+
+[node name="until-destroy" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -80,6 +86,7 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_nr3uh")
 

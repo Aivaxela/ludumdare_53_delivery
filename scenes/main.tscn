@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqedhqgxtfhse"]
+[gd_scene load_steps=11 format=3 uid="uid://dakacm3lfcmt6"]
 
 [ext_resource type="Script" path="res://scripts/MainCamera.cs" id="1_yi4it"]
 [ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="3_w4aud"]
 [ext_resource type="PackedScene" uid="uid://d1643t4upp0yh" path="res://scenes/parallax-background.tscn" id="4_5u38d"]
 [ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="4_47512"]
-[ext_resource type="PackedScene" uid="uid://5opuncc7eur3" path="res://goat-sucker.tscn" id="5_g4sjx"]
+[ext_resource type="PackedScene" uid="uid://blw6ige0nn65k" path="res://scenes/spawn.tscn" id="5_0ve5h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
 size = Vector2(980, 10)
@@ -18,6 +18,9 @@ size = Vector2(10, 1050)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmirw"]
 size = Vector2(10, 1050)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fy4cm"]
+size = Vector2(940, 20)
+
 [node name="main" type="Node"]
 
 [node name="mainCam" type="Camera2D" parent="."]
@@ -28,7 +31,7 @@ script = ExtResource("1_yi4it")
 [node name="borders" type="Node" parent="."]
 
 [node name="top-border" type="StaticBody2D" parent="borders" groups=["borders", "top-border"]]
-collision_layer = 4
+collision_layer = 20
 collision_mask = 0
 
 [node name="top" type="CollisionShape2D" parent="borders/top-border"]
@@ -36,7 +39,7 @@ position = Vector2(0, -265)
 shape = SubResource("RectangleShape2D_i8hu8")
 
 [node name="bottom-border" type="StaticBody2D" parent="borders" groups=["borders", "bottom-border"]]
-collision_layer = 4
+collision_layer = 20
 collision_mask = 0
 
 [node name="bottom" type="CollisionShape2D" parent="borders/bottom-border"]
@@ -44,7 +47,7 @@ position = Vector2(0, 265)
 shape = SubResource("RectangleShape2D_lw4xe")
 
 [node name="side-borders" type="StaticBody2D" parent="borders" groups=["borders", "side-border"]]
-collision_layer = 20
+collision_layer = 84
 collision_mask = 0
 
 [node name="left" type="CollisionShape2D" parent="borders/side-borders"]
@@ -55,9 +58,29 @@ shape = SubResource("RectangleShape2D_5ekuk")
 position = Vector2(475, -175)
 shape = SubResource("RectangleShape2D_fmirw")
 
+[node name="package-lose-limit" type="Area2D" parent="borders"]
+position = Vector2(0, 320)
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="borders/package-lose-limit"]
+shape = SubResource("RectangleShape2D_fy4cm")
+debug_color = Color(0.556863, 0.462745, 0.831373, 0.419608)
+
 [node name="player" parent="." instance=ExtResource("3_w4aud")]
+position = Vector2(-400, 0)
 
 [node name="backgrounds" parent="." instance=ExtResource("4_5u38d")]
 
-[node name="goat-sucker" parent="." instance=ExtResource("5_g4sjx")]
-position = Vector2(425, -50)
+[node name="enemy-spawn-points" type="Node" parent="."]
+
+[node name="spawn" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
+
+[node name="spawn2" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
+position = Vector2(525, -175)
+
+[node name="spawn3" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
+position = Vector2(525, -125)
+
+[node name="spawn4" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
+position = Vector2(525, -75)

@@ -2,18 +2,18 @@
 
 [ext_resource type="Script" path="res://scripts/UserInterface.cs" id="1_ox568"]
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "playerHPLabel")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "dashCDLabel")]
 script = ExtResource("1_ox568")
 carryingPackageLabel = NodePath("carrying")
-playerHPLabel = NodePath("player-hp")
+dashCDLabel = NodePath("dash-cd")
 
 [node name="carrying" type="Label" parent="."]
 offset_right = 67.0625
 offset_bottom = 31.0
 text = "You are carrying the package!"
 
-[node name="player-hp" type="Label" parent="."]
+[node name="dash-cd" type="Label" parent="."]
 offset_top = 30.0
 offset_right = 229.0
 offset_bottom = 61.0
-text = "HP: 100"
+text = "Dash: 5"

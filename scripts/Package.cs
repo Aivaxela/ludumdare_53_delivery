@@ -7,6 +7,7 @@ public partial class Package : CharacterBody2D
     [Export] float gravity;
 
     [Export] Timer checkWallCollisionTimer;
+    [Export] Area2D packageLostArea;
 
     Vector2 velocity;
     Vector2 direction;
@@ -25,6 +26,8 @@ public partial class Package : CharacterBody2D
 
         velocity.X = speed;
         velocity = direction * speed;
+
+        packageLostArea.AreaEntered += OnPackageLostAreaEntered;
     }
 
     public override void _Process(double delta)
@@ -52,8 +55,6 @@ public partial class Package : CharacterBody2D
             velocity.X = (float)-randX * speed;
         }
 
-        GD.Print(velocity.X);
-
 
         Velocity = velocity;
         MoveAndSlide();
@@ -62,5 +63,10 @@ public partial class Package : CharacterBody2D
         {
             stopYVelocityGain = true;
         }
+    }
+
+    private void OnPackageLostAreaEntered(object _)
+    {
+        GetTree().ChangeSceneToFile("res://scenes/game-over.tscn");
     }
 }

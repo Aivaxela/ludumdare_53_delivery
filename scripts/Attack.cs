@@ -5,6 +5,8 @@ public partial class Attack : CharacterBody2D
 {
     [Export] float projectileSpeed;
 
+    [Export] Timer untilDestoryTimer;
+
     Vector2 velocity;
     Vector2 direction;
     Vector2 mousePos;
@@ -42,5 +44,10 @@ public partial class Attack : CharacterBody2D
 
         Velocity = velocity;
         MoveAndSlide();
+
+        if (untilDestoryTimer.TimeLeft == 0)
+        {
+            QueueFree();
+        }
     }
 }

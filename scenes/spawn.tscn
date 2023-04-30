@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://blw6ige0nn65k"]
+
+[ext_resource type="Script" path="res://scripts/Spawn.cs" id="1_w74lk"]
+[ext_resource type="PackedScene" uid="uid://5opuncc7eur3" path="res://scenes/goat-sucker.tscn" id="2_hjidg"]
+
+[node name="spawn" type="Marker2D" node_paths=PackedStringArray("timeUntilSpawnTimer") groups=["spawn-point"]]
+position = Vector2(525, -225)
+script = ExtResource("1_w74lk")
+spawnRateMin = 3
+spawnRateMax = 12
+enemyScene = ExtResource("2_hjidg")
+timeUntilSpawnTimer = NodePath("timeUntilSpawn")
+
+[node name="timeUntilSpawn" type="Timer" parent="."]
+one_shot = true

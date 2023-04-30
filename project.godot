@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/resizable=false
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="viewport"
@@ -72,8 +71,10 @@ dash={
 2d_physics/layer_2="player-attack"
 2d_physics/layer_3="borders"
 2d_physics/layer_4="package"
-2d_physics/layer_5="side-border"
+2d_physics/layer_5="bouncing-border"
 2d_physics/layer_6="enemy"
+2d_physics/layer_7="package-bouncing-border"
+2d_physics/layer_8="package-lost"
 
 [rendering]
 

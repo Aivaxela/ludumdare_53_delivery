@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://pw6id8b84tgy"]
+[gd_scene load_steps=13 format=3 uid="uid://pw6id8b84tgy"]
 
 [ext_resource type="Script" path="res://scripts/Package.cs" id="1_dgp5v"]
 [ext_resource type="Texture2D" uid="uid://ddx7ccui00mn5" path="res://assets/package.png" id="1_hm10h"]
@@ -70,13 +70,17 @@ orbit_velocity_max = 0.0
 scale_curve = SubResource("CurveTexture_k24fw")
 color_ramp = SubResource("GradientTexture1D_rd78r")
 
-[node name="package" type="CharacterBody2D" node_paths=PackedStringArray("checkWallCollisionTimer") groups=["package"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yemsg"]
+height = 34.0
+
+[node name="package" type="CharacterBody2D" node_paths=PackedStringArray("checkWallCollisionTimer", "packageLostArea") groups=["package"]]
 collision_layer = 8
-collision_mask = 16
+collision_mask = 192
 script = ExtResource("1_dgp5v")
-speed = 200.0
+speed = 150.0
 gravity = 200.0
 checkWallCollisionTimer = NodePath("check-wall-collision-timer")
+packageLostArea = NodePath("package-lost")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "default"
@@ -101,3 +105,12 @@ lifetime = 1.5
 
 [node name="check-wall-collision-timer" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="package-lost" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="package-lost"]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_yemsg")
+debug_color = Color(0.698039, 0.4, 0.74902, 0.419608)
