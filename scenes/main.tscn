@@ -1,10 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://dakacm3lfcmt6"]
+[gd_scene load_steps=25 format=3 uid="uid://dakacm3lfcmt6"]
 
 [ext_resource type="Script" path="res://scripts/MainCamera.cs" id="1_yi4it"]
+[ext_resource type="AudioStream" uid="uid://df24kfjhusoiw" path="res://music/hasty delivery(3).wav" id="2_nwqpu"]
 [ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="3_w4aud"]
 [ext_resource type="PackedScene" uid="uid://d1643t4upp0yh" path="res://scenes/parallax-background.tscn" id="4_5u38d"]
 [ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="4_47512"]
 [ext_resource type="PackedScene" uid="uid://blw6ige0nn65k" path="res://scenes/spawn.tscn" id="5_0ve5h"]
+[ext_resource type="Texture2D" uid="uid://opqkmov0u56e" path="res://assets/flower_petal.png" id="5_q27bv"]
+[ext_resource type="Texture2D" uid="uid://dpqxebqe7hnrt" path="res://assets/clouds.png" id="6_macam"]
+[ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="7_b8gj7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
 size = Vector2(980, 10)
@@ -21,12 +25,82 @@ size = Vector2(10, 1050)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy4cm"]
 size = Vector2(940, 20)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vrr8r"]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_q1rog"]
+offsets = PackedFloat32Array(0, 0.270522, 0.469527, 0.765547, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.752941, 1, 1, 1, 0.47451, 1, 1, 1, 0.819608, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8g5es"]
+gradient = SubResource("Gradient_q1rog")
+
+[sub_resource type="Curve" id="Curve_8n3sl"]
+_data = [Vector2(0, 0.749097), 0.0, 0.0, 0, 0, Vector2(0.376984, 0.994585), 0.0, 0.0, 0, 0, Vector2(0.748866, 0.770758), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_wxudu"]
+curve = SubResource("Curve_8n3sl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2khg7"]
+emission_shape = 3
+emission_box_extents = Vector3(5, 150, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 3.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.8
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_wxudu")
+color_ramp = SubResource("GradientTexture1D_8g5es")
+anim_offset_max = 1.0
+
+[sub_resource type="Gradient" id="Gradient_56wj5"]
+offsets = PackedFloat32Array(0, 0.758085, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x4hy0"]
+gradient = SubResource("Gradient_56wj5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cdjcw"]
+emission_shape = 3
+emission_box_extents = Vector3(1000, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(-2, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 130.0
+angular_velocity_min = -70.0
+angular_velocity_max = 70.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.3
+scale_max = 0.6
+color = Color(1, 1, 1, 0.823529)
+color_ramp = SubResource("GradientTexture1D_x4hy0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_opsi4"]
+shader = ExtResource("7_b8gj7")
+shader_parameter/color = Color(1, 1, 0, 1)
+shader_parameter/multiplier = 0.06
+shader_parameter/softness = 3.0
+
 [node name="main" type="Node"]
 
-[node name="mainCam" type="Camera2D" parent="."]
-script = ExtResource("1_yi4it")
-
 [node name="UI" parent="." instance=ExtResource("4_47512")]
+
+[node name="bg-music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_nwqpu")
+volume_db = 4.0
+autoplay = true
 
 [node name="borders" type="Node" parent="."]
 
@@ -67,20 +141,54 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_fy4cm")
 debug_color = Color(0.556863, 0.462745, 0.831373, 0.419608)
 
-[node name="player" parent="." instance=ExtResource("3_w4aud")]
-position = Vector2(-400, 0)
+[node name="mainCam" type="Camera2D" parent="."]
+script = ExtResource("1_yi4it")
 
 [node name="backgrounds" parent="." instance=ExtResource("4_5u38d")]
+
+[node name="cloud-particles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_vrr8r")
+position = Vector2(664, -150)
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_2khg7")
+texture = ExtResource("6_macam")
+lifetime = 25.0
+preprocess = 30.0
+visibility_rect = Rect2(-2500, -100, 5000, 200)
+
+[node name="petal-particles" type="GPUParticles2D" parent="."]
+position = Vector2(150, -300)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_cdjcw")
+texture = ExtResource("5_q27bv")
+lifetime = 10.0
+preprocess = 20.0
 
 [node name="enemy-spawn-points" type="Node" parent="."]
 
 [node name="spawn" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
+spawnRateMax = 10
 
 [node name="spawn2" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
 position = Vector2(525, -175)
+spawnRateMax = 10
 
 [node name="spawn3" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
 position = Vector2(525, -125)
+spawnRateMax = 10
 
 [node name="spawn4" parent="enemy-spawn-points" instance=ExtResource("5_0ve5h")]
 position = Vector2(525, -75)
+spawnRateMax = 10
+
+[node name="player" parent="." instance=ExtResource("3_w4aud")]
+position = Vector2(-400, 0)
+
+[node name="vignette" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="vignette"]
+material = SubResource("ShaderMaterial_opsi4")
+use_parent_material = true
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0, 0, 0, 1)

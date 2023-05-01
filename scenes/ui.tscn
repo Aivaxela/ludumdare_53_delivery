@@ -1,19 +1,160 @@
-[gd_scene load_steps=2 format=3 uid="uid://cx2phey8s3yn7"]
+[gd_scene load_steps=8 format=3 uid="uid://cx2phey8s3yn7"]
 
 [ext_resource type="Script" path="res://scripts/UserInterface.cs" id="1_ox568"]
+[ext_resource type="FontFile" uid="uid://bfnyxermn6tha" path="res://fonts/BD_Cartoon_Shout.ttf" id="2_h6pu5"]
+[ext_resource type="Texture2D" uid="uid://cykrkq3poavom" path="res://assets/dash-ready-feather.png" id="3_gqa4k"]
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "dashCDLabel")]
+[sub_resource type="Animation" id="Animation_bkg8x"]
+resource_name = "stun-duration-changed"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("stun-duration-label/stun-duration:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("stun-duration-label/stun-duration:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.25, 1.25), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("stun-duration-label/stun-duration:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0272196, 0.0174533, 0.174533, -0.122173, 0.10472, 0.10472, 0.0272196]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uewot"]
+_data = {
+"stun-duration-changed": SubResource("Animation_bkg8x")
+}
+
+[sub_resource type="FontVariation" id="FontVariation_uwxen"]
+base_font = ExtResource("2_h6pu5")
+
+[sub_resource type="FontVariation" id="FontVariation_p51ai"]
+base_font = ExtResource("2_h6pu5")
+
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "dashCDLabel", "levelEnemiesLabel", "playerStateLabel", "usingControllerLabel", "animationPlayer", "stunDurationLabel", "stunDurAnimChangeTimer")]
 script = ExtResource("1_ox568")
 carryingPackageLabel = NodePath("carrying")
 dashCDLabel = NodePath("dash-cd")
+levelEnemiesLabel = NodePath("level-enemies")
+playerStateLabel = NodePath("state")
+usingControllerLabel = NodePath("using-controller")
+animationPlayer = NodePath("AnimationPlayer")
+stunDurationLabel = NodePath("stun-duration-label/stun-duration")
+stunDurAnimChangeTimer = NodePath("stun-dur-anim-change-timer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uewot")
+}
 
 [node name="carrying" type="Label" parent="."]
-offset_right = 67.0625
-offset_bottom = 31.0
+offset_left = 725.0
+offset_top = 5.0
+offset_right = 954.0
+offset_bottom = 36.0
 text = "You are carrying the package!"
+horizontal_alignment = 2
 
 [node name="dash-cd" type="Label" parent="."]
-offset_top = 30.0
-offset_right = 229.0
-offset_bottom = 61.0
+offset_left = 725.0
+offset_top = 25.0
+offset_right = 954.0
+offset_bottom = 56.0
 text = "Dash: 5"
+horizontal_alignment = 2
+
+[node name="level-enemies" type="Label" parent="."]
+offset_left = 725.0
+offset_top = 45.0
+offset_right = 954.0
+offset_bottom = 76.0
+text = "Time: 999
+"
+horizontal_alignment = 2
+
+[node name="state" type="Label" parent="."]
+offset_left = 725.0
+offset_top = 65.0
+offset_right = 954.0
+offset_bottom = 96.0
+text = "Player state: FLYING
+"
+horizontal_alignment = 2
+
+[node name="using-controller" type="Label" parent="."]
+offset_left = 725.0
+offset_top = 85.0
+offset_right = 954.0
+offset_bottom = 137.0
+text = "Using controller: no
+
+"
+horizontal_alignment = 2
+
+[node name="stun-duration-label" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 279.0
+offset_bottom = 69.0
+rotation = 0.070994
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 15
+text = "Stun 
+Duration:"
+
+[node name="stun-duration" type="Label" parent="stun-duration-label"]
+offset_left = 7.82478
+offset_top = 39.5446
+offset_right = 276.825
+offset_bottom = 103.545
+rotation = 0.0272196
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 35
+text = "1.5 sec"
+
+[node name="dash-ready-icon" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.882353)
+position = Vector2(171, 4)
+texture = ExtResource("3_gqa4k")
+
+[node name="text" type="Label" parent="dash-ready-icon"]
+modulate = Color(0, 0, 0, 1)
+offset_left = -41.0
+offset_right = 101.0
+offset_bottom = 23.0
+rotation = 0.223092
+theme_override_fonts/font = SubResource("FontVariation_p51ai")
+theme_override_font_sizes/font_size = 12
+text = "Dash Ready!"
+
+[node name="stun-dur-anim-change-timer" type="Timer" parent="."]
+one_shot = true

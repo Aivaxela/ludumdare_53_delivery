@@ -22,10 +22,12 @@ public partial class Attack : CharacterBody2D
 
         // if (!inputManager.UsingController())
         {
-            mousePos = GetGlobalMousePosition();
-            localPos = mousePos - player.GlobalPosition;
-            direction = localPos.Normalized();
-            Rotation = direction.Angle();
+            // mousePos = GetGlobalMousePosition();
+            // localPos = mousePos - player.GlobalPosition;
+            // direction = localPos.Normalized();
+            // Rotation = direction.Angle();
+
+            direction = new Vector2(1, 0);
         }
         // else if (inputManager.UsingController())
         // {

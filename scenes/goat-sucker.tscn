@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://5opuncc7eur3"]
+[gd_scene load_steps=24 format=3 uid="uid://5opuncc7eur3"]
 
 [ext_resource type="Script" path="res://scripts/GoatSucker.cs" id="1_bn4n6"]
 [ext_resource type="PackedScene" uid="uid://c3kpe5tk7tou1" path="res://scenes/hit-marker.tscn" id="2_45x7u"]
 [ext_resource type="Texture2D" uid="uid://b6oevcypvcjui" path="res://assets/goat-sucker/goat-sucker-fx.png" id="3_3sdmv"]
 [ext_resource type="Texture2D" uid="uid://c0j04cnphkfqa" path="res://assets/goat-sucker/body.png" id="4_fv5qw"]
 [ext_resource type="Texture2D" uid="uid://bf5aa2l3wt8hl" path="res://assets/goat-sucker/wing.png" id="5_kh3wb"]
+[ext_resource type="AudioStream" uid="uid://5qlqnhxhu3s0" path="res://sfx/goat-sucker-death.wav" id="6_hwedp"]
+[ext_resource type="AudioStream" uid="uid://ciopyb3dar01p" path="res://sfx/goat-sucker-dash.wav" id="7_dbj0m"]
+[ext_resource type="Texture2D" uid="uid://cp1ecrw45f7pd" path="res://assets/goat-sucker/pieces.png" id="8_3sahd"]
 
 [sub_resource type="Animation" id="Animation_ktnvn"]
 length = 0.001
@@ -155,11 +158,37 @@ orbit_velocity_max = 0.0
 scale_curve = SubResource("CurveTexture_2tljt")
 color_ramp = SubResource("GradientTexture1D_8u5bt")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_klcou"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_gdw2i"]
+offsets = PackedFloat32Array(0, 0.768035, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.886275, 0.231373, 0.231373, 1, 0.84956, 3.29696e-06, 1.54018e-06, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_11xuw"]
+gradient = SubResource("Gradient_gdw2i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ym3a3"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 450, 0)
+initial_velocity_min = -300.0
+initial_velocity_max = 500.0
+angular_velocity_min = -500.0
+angular_velocity_max = 500.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_11xuw")
+anim_offset_max = 1.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4xjqq"]
 radius = 8.0
 height = 28.0
 
-[node name="goat-sucker" type="CharacterBody2D" node_paths=PackedStringArray("timeUntilLaunchTimer", "timeUntilDestroyTimer", "sprite", "wingSprite", "animationPlayer", "playerAttackArea")]
+[node name="goat-sucker" type="CharacterBody2D" node_paths=PackedStringArray("timeUntilLaunchTimer", "timeUntilDestroyTimer", "sprite", "wingSprite", "animationPlayer", "playerAttackArea", "deathSFX", "dashSFX", "deathParticles")]
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("1_bn4n6")
@@ -174,6 +203,9 @@ wingSprite = NodePath("body/wing")
 animationPlayer = NodePath("AnimationPlayer")
 playerAttackArea = NodePath("player-attack-area")
 hitMarker = ExtResource("2_45x7u")
+deathSFX = NodePath("death")
+dashSFX = NodePath("dash")
+deathParticles = NodePath("deathParticles")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "default"
@@ -206,6 +238,15 @@ lifetime = 0.25
 preprocess = 1.0
 fixed_fps = 15
 
+[node name="deathParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_klcou")
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_ym3a3")
+texture = ExtResource("8_3sahd")
+one_shot = true
+explosiveness = 0.8
+
 [node name="body" type="Sprite2D" parent="."]
 texture = ExtResource("4_fv5qw")
 
@@ -222,3 +263,10 @@ collision_mask = 2
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_4xjqq")
 debug_color = Color(0.862745, 0.34902, 0.239216, 0.419608)
+
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_hwedp")
+
+[node name="dash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_dbj0m")
+volume_db = -5.0

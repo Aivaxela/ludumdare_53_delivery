@@ -1,0 +1,158 @@
+[gd_scene load_steps=8 format=3 uid="uid://mv8oaot74a14"]
+
+[ext_resource type="Script" path="res://scripts/End.cs" id="1_63i3o"]
+[ext_resource type="Texture2D" uid="uid://cxf5vsy2vr5b2" path="res://assets/bg.png" id="2_0hxef"]
+[ext_resource type="Texture2D" uid="uid://bgedq6hic6oxx" path="res://assets/end-house.png" id="3_v2uw2"]
+[ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="4_vrc25"]
+
+[sub_resource type="Animation" id="Animation_junoc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-224, 188)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(6, 88)]
+}
+
+[sub_resource type="Animation" id="Animation_0uemm"]
+resource_name = "end"
+length = 18.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 3.57, 3.6, 9.61, 12, 12.5, 13, 13.5, 15.1, 15.5, 16.3, 17.2, 18),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-415, -100), Vector2(-45, 185), Vector2(-45, 193), Vector2(-45, 193), Vector2(-45, 193), Vector2(-203.388, 155.711), Vector2(-224, 188), Vector2(-241, 160), Vector2(-271, 176), Vector2(-313, 124), Vector2(-352, 131), Vector2(-390, 114), Vector2(-418, 138), Vector2(-529, 88)]
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("player/anim-player")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("flying-idle-package", "RESET", "[stop]", "landed", "flying-idle-reverse"),
+"times": PackedFloat32Array(0, 3, 3.0001, 3.6, 9.61)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("player:rotation")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.2, 3, 3.6, 9.61),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.349066, 0.349066, 0.0, 0.0, -0.0872665]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(9.61),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"PackageDelivered"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("player/body:scale")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 9.61),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(-1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Camera2D:zoom")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 9.6, 18),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Camera2D:position")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 9.6, 13, 15.1, 18),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 0), Vector2(7, 44), Vector2(-44, 28), Vector2(-19, 10), Vector2(1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_id3oj"]
+_data = {
+"RESET": SubResource("Animation_junoc"),
+"end": SubResource("Animation_0uemm")
+}
+
+[node name="end" type="Node" node_paths=PackedStringArray("player", "packageSprite")]
+script = ExtResource("1_63i3o")
+player = NodePath("player")
+packageSprite = NodePath("player/animatedBody")
+
+[node name="end-cinematic" type="AnimationPlayer" parent="."]
+autoplay = "end"
+libraries = {
+"": SubResource("AnimationLibrary_id3oj")
+}
+
+[node name="bg" type="Sprite2D" parent="."]
+texture = ExtResource("2_0hxef")
+
+[node name="end-house" type="Sprite2D" parent="."]
+texture = ExtResource("3_v2uw2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(6, 88)
+zoom = Vector2(1.15421, 1.15421)
+
+[node name="player" parent="." instance=ExtResource("4_vrc25")]
+position = Vector2(-224, 188)
+rotation = -0.0872665
+
+[node name="wing" parent="player/body" index="2"]
+position = Vector2(0, -6)
+scale = Vector2(1, 0.5)
+
+[editable path="player"]

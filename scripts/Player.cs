@@ -3,7 +3,7 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-    public enum State { FLYING, DASHING, STUNNED }
+    public enum State { FLYING, DASHING, STUNNED, END }
     public State currentPlayerState;
 
     [Export] float speed;
@@ -11,17 +11,22 @@ public partial class Player : CharacterBody2D
     [Export] float dashSpeed;
     [Export] float declinePush;
 
-    [Export] AnimationPlayer animationPlayer;
+    [Export] public AnimationPlayer animationPlayer;
     [Export] Area2D packageArea;
     [Export] Area2D enemyArea;
     [Export] Timer recollectPackageTimer;
     [Export] Timer dashTimer;
     [Export] Timer dashCooldownTimer;
     [Export] Timer attackCooldownTimer;
-    [Export] Timer stunnedTimer;
+    [Export] Timer stunMaxRemovalTimer;
+    [Export] public Timer stunnedTimer;
+    [Export] Timer stunCooldownTimer;
     [Export] PackedScene attack;
     [Export] PackedScene package;
     [Export] Sprite2D spriteBody;
+    [Export] GpuParticles2D stunParticles;
+    [Export] AudioStreamPlayer storkBlastSFX;
+    [Export] AudioStreamPlayer stunnedSFX;
 
     [Export] public int dashCooldown;
 
@@ -29,15 +34,23 @@ public partial class Player : CharacterBody2D
     public Vector2 direction = Vector2.Zero;
     public bool hasPackage = true;
 
+    InputManager inputManager;
     Vector2 dashDirection;
     Vector2 mouseVector;
+    public float stunDuration = 1f;
     bool nearPackage = false;
     bool stunned = false;
+    bool dashing = false;
+    bool end = false;
 
 
     public override void _Ready()
     {
+        inputManager = GetNode<InputManager>("/root/InputManager");
+
         currentPlayerState = State.FLYING;
+        stunParticles.Emitting = false;
+        stunMaxRemovalTimer.Start();
 
         packageArea.BodyEntered += OnPackageAreaEntered;
         packageArea.BodyExited += OnPackageAreaExited;
@@ -46,41 +59,49 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        direction.X = Input.GetActionStrength("move-right") - Input.GetActionStrength("move-left");
-        dashCooldown = (int)dashCooldownTimer.TimeLeft;
+        DepleteStunDuration();
+
+        if (!end)
+        {
+            direction.X = Input.GetActionStrength("move-right") - Input.GetActionStrength("move-left");
+            dashCooldown = (int)dashCooldownTimer.TimeLeft;
+        }
 
         switch (currentPlayerState)
         {
             case State.FLYING:
                 _Process_Flying(delta);
                 break;
-
             case State.DASHING:
                 _Process_Dashing(delta);
                 break;
             case State.STUNNED:
                 _Process_Stunned(delta);
                 break;
+            case State.END:
+                _Process_End(delta);
+                break;
         }
 
         Velocity = velocity;
         MoveAndSlide();
 
-        if (Input.IsActionPressed("attack") && hasPackage == false && attackCooldownTimer.TimeLeft == 0)
+        if (Input.IsActionPressed("attack") && attackCooldownTimer.TimeLeft == 0 && !end && !stunned && !dashing)
         {
+            storkBlastSFX.PitchScale = (float)GD.RandRange(0.8f, 1.2f);
+            storkBlastSFX.Play();
+            DropPackage();
             CharacterBody2D newAttack = (CharacterBody2D)attack.Instantiate();
             GetParent().AddChild(newAttack);
             newAttack.GlobalPosition = GlobalPosition;
             attackCooldownTimer.Start();
         }
 
-        if (Input.IsActionJustPressed("toggle-package"))
+        if (Input.IsActionJustPressed("toggle-package") && !end)
         {
             if (hasPackage == false && nearPackage == true && recollectPackageTimer.TimeLeft == 0 && !stunned)
             {
-                hasPackage = true;
-                Package currentPackage = GetTree().GetFirstNodeInGroup("package") as Package;
-                currentPackage.QueueFree();
+                CollectPackage();
             }
 
             else if (hasPackage == true)
@@ -89,15 +110,26 @@ public partial class Player : CharacterBody2D
             }
         }
 
-        if (Input.IsActionJustPressed("dash") && currentPlayerState != State.DASHING && hasPackage == false && dashCooldownTimer.TimeLeft == 0)
+        if (Input.IsActionJustPressed("dash") && dashCooldownTimer.TimeLeft == 0 && !hasPackage && !dashing && !end && !stunned)
         {
-            dashDirection = GetMousePosAgainstPlayerPosVector();
+            if (inputManager.UsingController())
+            {
+                float horizontalInput = Input.GetJoyAxis(0, JoyAxis.LeftX);
+                float verticalInput = Input.GetJoyAxis(0, JoyAxis.LeftY);
+
+                dashDirection = new Vector2(horizontalInput, verticalInput).Normalized();
+                dashing = true;
+            }
+            else if (!inputManager.UsingController())
+            {
+                dashDirection = GetMousePosAgainstPlayerPosVector();
+                dashing = true;
+            }
 
             if (dashDirection != Vector2.Zero)
             {
                 dashTimer.Start();
                 dashCooldownTimer.Start();
-                Rotation = dashDirection.Angle();
                 currentPlayerState = State.DASHING;
             }
         }
@@ -105,17 +137,22 @@ public partial class Player : CharacterBody2D
 
     public void _Process_Dashing(double delta)
     {
-        animationPlayer.Play("dashing");
         velocity = dashDirection * dashSpeed;
         if (velocity.X < 0)
         {
             spriteBody.FlipH = true;
         }
 
+        if (nearPackage)
+        {
+            CollectPackage();
+        }
+
         if (dashTimer.TimeLeft == 0)
         {
             velocity = velocity / 2;
             Rotation = 0;
+            dashing = false;
             animationPlayer.Play("RESET");
             spriteBody.FlipH = false;
             currentPlayerState = State.FLYING;
@@ -133,13 +170,23 @@ public partial class Player : CharacterBody2D
     {
         GetMovementVector();
         GetVelocity();
+        animationPlayer.Play("stunned");
 
         velocity = velocity * 0.90f;
 
         if (stunnedTimer.TimeLeft == 0)
         {
+            stunParticles.Emitting = false;
+            stunned = false;
+            stunCooldownTimer.Start();
+            animationPlayer.Play("RESET");
             currentPlayerState = State.FLYING;
         }
+    }
+
+    public void _Process_End(double delta)
+    {
+        end = true;
     }
 
 
@@ -209,29 +256,73 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    private void DropPackage()
-    {
-        hasPackage = false;
-        CharacterBody2D newPackage = (CharacterBody2D)package.Instantiate();
-        GetParent().AddChild(newPackage);
-        newPackage.GlobalPosition = GlobalPosition;
-        newPackage.GlobalPosition = new Vector2(GlobalPosition.X + 60, GlobalPosition.Y);
-        recollectPackageTimer.Start();
-    }
-
     private void OnPackageAreaEntered(object _)
-    { nearPackage = true; }
+    {
+        nearPackage = true;
+    }
     private void OnPackageAreaExited(object _)
-    { nearPackage = false; }
+    {
+        nearPackage = false;
+    }
 
     private void OnEnemyAreaEntered(object _)
     {
-        if (hasPackage)
+        if (stunCooldownTimer.TimeLeft == 0 && !dashing && !stunned)
         {
-            DropPackage();
+            stunnedSFX.Play();
+            if (hasPackage)
+            {
+                CallDeferred(nameof(DropPackageSetToStunned));
+            }
+            else
+            {
+                CallDeferred(nameof(SetToStunned));
+            }
         }
+    }
+
+    private void DropPackageSetToStunned()
+    {
+        stunnedTimer.WaitTime = stunDuration;
         stunnedTimer.Start();
-        // CallDeferred("SetToStunned");
+        stunDuration += 0.5f;
+        stunParticles.Emitting = true;
+        stunned = true;
+        DropPackage();
+        currentPlayerState = State.STUNNED;
+    }
+
+    private void SetToStunned()
+    {
+        stunnedTimer.WaitTime = stunDuration;
+        stunnedTimer.Start();
+        stunDuration += 0.5f;
+        stunned = true;
+        stunParticles.Emitting = true;
+        currentPlayerState = State.STUNNED;
+    }
+
+    private void DropPackage()
+    {
+        if (GetTree().GetNodesInGroup("package").Count == 0)
+        {
+            hasPackage = false;
+            CharacterBody2D newPackage = (CharacterBody2D)package.Instantiate();
+            GetParent().AddChild(newPackage);
+            newPackage.GlobalPosition = GlobalPosition;
+            newPackage.GlobalPosition = new Vector2(GlobalPosition.X + 60, GlobalPosition.Y);
+            recollectPackageTimer.Start();
+        }
+    }
+
+    private void CollectPackage()
+    {
+        if (recollectPackageTimer.TimeLeft == 0)
+        {
+            hasPackage = true;
+            Package currentPackage = GetTree().GetFirstNodeInGroup("package") as Package;
+            currentPackage.QueueFree();
+        }
     }
 
     private Vector2 GetMousePosAgainstPlayerPosVector()
@@ -242,8 +333,12 @@ public partial class Player : CharacterBody2D
         return mouseVector;
     }
 
-    private void SetToStunned()
+    private void DepleteStunDuration()
     {
-        currentPlayerState = State.STUNNED;
+        if (stunMaxRemovalTimer.TimeLeft == 0 && stunDuration > 1f)
+        {
+            stunDuration -= 0.1f;
+            stunMaxRemovalTimer.Start();
+        }
     }
 }

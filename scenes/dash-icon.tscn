@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://esvqivgb4hil"]
+
+[ext_resource type="Texture2D" uid="uid://cykrkq3poavom" path="res://assets/dash-ready-feather.png" id="1_wqjfx"]
+[ext_resource type="FontFile" uid="uid://bfnyxermn6tha" path="res://fonts/BD_Cartoon_Shout.ttf" id="2_ibdij"]
+
+[sub_resource type="FontVariation" id="FontVariation_car2d"]
+base_font = ExtResource("2_ibdij")
+
+[node name="dash-icon" type="Node2D"]
+
+[node name="png" type="Sprite2D" parent="."]
+texture = ExtResource("1_wqjfx")
+
+[node name="Label" type="Label" parent="png"]
+modulate = Color(0, 0, 0, 1)
+offset_left = -60.0
+offset_top = -3.0
+offset_right = 82.0
+offset_bottom = 20.0
+rotation = 0.223092
+theme_override_fonts/font = SubResource("FontVariation_car2d")
+theme_override_font_sizes/font_size = 17
+text = "Dash Ready!"

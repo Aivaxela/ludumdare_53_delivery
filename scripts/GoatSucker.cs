@@ -15,7 +15,11 @@ public partial class GoatSucker : CharacterBody2D
     [Export] AnimationPlayer animationPlayer;
     [Export] Area2D playerAttackArea;
     [Export] PackedScene hitMarker;
+    [Export] AudioStreamPlayer deathSFX;
+    [Export] AudioStreamPlayer dashSFX;
+    [Export] GpuParticles2D deathParticles;
 
+    LevelManager levelManager;
     Vector2 velocity;
     Vector2 direction;
     float cruiseSpeed;
@@ -23,15 +27,19 @@ public partial class GoatSucker : CharacterBody2D
     float currentXPos2;
     float currentYPos1;
     float currentYPos2;
+    int bounceCount = 0;
 
     bool directionLocked = false;
     bool destroyTimerStarted = false;
     bool checkPos1 = true;
     bool launched = false;
+    bool dashSFXplayed = false;
 
 
     public override void _Ready()
     {
+        levelManager = GetNode<LevelManager>("/root/LevelManager");
+
         timeUntilLaunchTimer.WaitTime = GD.RandRange(1, 4);
         timeUntilLaunchTimer.Start();
         direction = new Vector2(-1, 0);
@@ -53,6 +61,11 @@ public partial class GoatSucker : CharacterBody2D
             {
                 timeUntilDestroyTimer.Start();
                 destroyTimerStarted = true;
+            }
+            if (!dashSFXplayed)
+            {
+                dashSFX.Play();
+                dashSFXplayed = true;
             }
         }
         else
@@ -107,11 +120,16 @@ public partial class GoatSucker : CharacterBody2D
         }
         if (launched)
         {
-            if (Mathf.Abs(currentXPos1 - currentXPos2) < 0.1 || Mathf.Abs(currentYPos1 - currentYPos2) < 0.1)
+            if (bounceCount == 4)
+            {
+                CollisionMask = 0;
+            }
+            else if (Mathf.Abs(currentXPos1 - currentXPos2) < 0.1 || Mathf.Abs(currentYPos1 - currentYPos2) < 0.1)
             {
                 directionLocked = false;
                 DirectTowardsPlayer();
                 velocity = direction * launchSpeed;
+                bounceCount++;
             }
         }
     }
@@ -128,6 +146,15 @@ public partial class GoatSucker : CharacterBody2D
         hp -= 1;
         if (hp == 0)
         {
+            RemoveChild(deathSFX);
+            GetParent().AddChild(deathSFX);
+            RemoveChild(deathParticles);
+            GetParent().AddChild(deathParticles);
+            deathSFX.PitchScale = (float)GD.RandRange(0.8, 1.2);
+            deathSFX.Play();
+            deathParticles.GlobalPosition = GlobalPosition;
+            deathParticles.Emitting = true;
+            levelManager.levelEnemiesLeft -= 1;
             QueueFree();
         }
     }

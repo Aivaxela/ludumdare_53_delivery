@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://be0q646ycmdh5"]
+
+[ext_resource type="Script" path="res://scripts/LevelManager.cs" id="1_vlpnb"]
+
+[node name="level-manager" type="Node" node_paths=PackedStringArray("levelLengthTimer")]
+script = ExtResource("1_vlpnb")
+levelLengthTimer = NodePath("level-length-timer")
+
+[node name="level-length-timer" type="Timer" parent="."]
+wait_time = 10.0
