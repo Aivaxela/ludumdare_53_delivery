@@ -4,6 +4,7 @@ using System;
 public partial class Attack : CharacterBody2D
 {
     [Export] float projectileSpeed;
+    [Export] public bool isBolt = false;
 
     [Export] Timer untilDestoryTimer;
 
@@ -18,26 +19,10 @@ public partial class Attack : CharacterBody2D
     public override void _Ready()
     {
         player = GetNode<Player>("/root/main/player");
-        // inputManager = GetNode<InputManager>("/root/InputManager");
 
-        // if (!inputManager.UsingController())
         {
-            // mousePos = GetGlobalMousePosition();
-            // localPos = mousePos - player.GlobalPosition;
-            // direction = localPos.Normalized();
-            // Rotation = direction.Angle();
-
             direction = new Vector2(1, 0);
         }
-        // else if (inputManager.UsingController())
-        // {
-        //     float horizontalInput = Input.GetJoyAxis(0, JoyAxis.LeftX);
-        //     float verticalInput = Input.GetJoyAxis(0, JoyAxis.LeftY);
-
-        //     direction = new Vector2(horizontalInput, verticalInput).Normalized();
-
-        //     Rotation = direction.Angle();
-        // }
     }
 
     public override void _Process(double delta)

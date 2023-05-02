@@ -5,6 +5,8 @@ public partial class GoatSucker : CharacterBody2D
 {
     [Export] int cruiseSpeedMin;
     [Export] int cruiseSpeedMax;
+    [Export] int timeUntilLaunchMin;
+    [Export] int timeUntilLaunchMax;
     [Export] float launchSpeed;
     [Export] int hp;
 
@@ -18,6 +20,7 @@ public partial class GoatSucker : CharacterBody2D
     [Export] AudioStreamPlayer deathSFX;
     [Export] AudioStreamPlayer dashSFX;
     [Export] GpuParticles2D deathParticles;
+    [Export] bool isOcean = false;
 
     LevelManager levelManager;
     Vector2 velocity;
@@ -40,7 +43,7 @@ public partial class GoatSucker : CharacterBody2D
     {
         levelManager = GetNode<LevelManager>("/root/LevelManager");
 
-        timeUntilLaunchTimer.WaitTime = GD.RandRange(1, 4);
+        timeUntilLaunchTimer.WaitTime = GD.RandRange(timeUntilLaunchMin, timeUntilLaunchMax);
         timeUntilLaunchTimer.Start();
         direction = new Vector2(-1, 0);
         cruiseSpeed = GD.RandRange(cruiseSpeedMin, cruiseSpeedMax);
@@ -82,6 +85,10 @@ public partial class GoatSucker : CharacterBody2D
         }
 
         if (timeUntilDestroyTimer.TimeLeft == 0 && destroyTimerStarted)
+        {
+            QueueFree();
+        }
+        if (timeUntilDestroyTimer.TimeLeft == 0 && isOcean)
         {
             QueueFree();
         }
@@ -134,17 +141,29 @@ public partial class GoatSucker : CharacterBody2D
         }
     }
 
-    private void OnPlayerAttackEntered(object objHitBy)
+    private void OnPlayerAttackEntered(object objHitByObj)
     {
         Node2D newHitMarker = (Node2D)hitMarker.Instantiate();
         GetParent().AddChild(newHitMarker);
         newHitMarker.GlobalPosition = GlobalPosition;
-        CharacterBody2D objHitByBody2D = (CharacterBody2D)objHitBy;
-        newHitMarker.Rotation = objHitByBody2D.Velocity.Angle();
-        objHitByBody2D.QueueFree();
+        Attack objHitBy = (Attack)objHitByObj;
+        newHitMarker.Rotation = objHitBy.Velocity.Angle();
 
-        hp -= 1;
-        if (hp == 0)
+        if (!objHitBy.isBolt)
+        {
+            objHitBy.QueueFree();
+        }
+
+        if (objHitBy.isBolt)
+        {
+            hp -= 5;
+        }
+        else
+        {
+            hp -= 1;
+        }
+
+        if (hp <= 0)
         {
             RemoveChild(deathSFX);
             GetParent().AddChild(deathSFX);

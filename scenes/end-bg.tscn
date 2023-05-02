@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://s4oyq33cpors"]
+
+[ext_resource type="Script" path="res://scripts/EndBg.cs" id="1_6nsc7"]
+[ext_resource type="Texture2D" uid="uid://cl5b2ou1gyb3" path="res://assets/final-end-bg.png" id="1_ku680"]
+[ext_resource type="FontFile" uid="uid://wdwn75nycbva" path="res://fonts/Alice in Wonderland.ttf" id="2_55wrb"]
+
+[sub_resource type="FontVariation" id="FontVariation_qpgub"]
+base_font = ExtResource("2_55wrb")
+variation_embolden = 0.35
+
+[sub_resource type="FontVariation" id="FontVariation_coyhn"]
+base_font = ExtResource("2_55wrb")
+variation_embolden = 0.35
+
+[node name="end-bg" type="Node2D" node_paths=PackedStringArray("exitButton")]
+script = ExtResource("1_6nsc7")
+exitButton = NodePath("exit")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="bg" type="Sprite2D" parent="."]
+texture = ExtResource("1_ku680")
+
+[node name="exit" type="Button" parent="."]
+offset_left = -450.0
+offset_top = 185.0
+offset_right = -313.0
+offset_bottom = 261.0
+theme_override_fonts/font = SubResource("FontVariation_qpgub")
+theme_override_font_sizes/font_size = 40
+text = "Exit"
+flat = true
+alignment = 0
+
+[node name="title" type="Label" parent="."]
+offset_left = -10.0
+offset_top = -75.0
+offset_right = 595.0
+offset_bottom = 89.0
+theme_override_fonts/font = SubResource("FontVariation_coyhn")
+theme_override_font_sizes/font_size = 70
+text = "Beak 
+& Bundle"

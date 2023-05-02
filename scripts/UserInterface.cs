@@ -3,15 +3,13 @@ using System;
 
 public partial class UserInterface : CanvasLayer
 {
-    [Export] Label carryingPackageLabel;
-    [Export] Label dashCDLabel;
-    [Export] Label levelEnemiesLabel;
-    [Export] Label playerStateLabel;
-    [Export] Label usingControllerLabel;
-
     [Export] AnimationPlayer animationPlayer;
     [Export] Label stunDurationLabel;
+    [Export] Label dashCdLabel;
+    [Export] Label boltCdLabel;
     [Export] Timer stunDurAnimChangeTimer;
+    [Export] Sprite2D dashReadySprite;
+    [Export] Sprite2D boltReadySprite;
 
     Player player;
     LevelManager levelManager;
@@ -29,15 +27,6 @@ public partial class UserInterface : CanvasLayer
 
     public override void _Process(double delta)
     {
-        if (player.hasPackage)
-        {
-            carryingPackageLabel.Text = "You have the package!";
-        }
-        else
-        {
-            carryingPackageLabel.Text = "You don't have the package!";
-        }
-
         if (player.currentPlayerState == Player.State.STUNNED && stunDurAnimChangeTimer.TimeLeft == 0)
         {
             animationPlayer.Play("stun-duration-changed");
@@ -45,11 +34,13 @@ public partial class UserInterface : CanvasLayer
             stunDurAnimChangeTimer.Start();
         }
 
-        stunDurationLabel.Text = Math.Round(player.stunDuration, 1).ToString();
+        if (player.dashCooldownTimer.TimeLeft == 0) { dashReadySprite.Visible = true; dashCdLabel.Visible = false; }
+        else { dashReadySprite.Visible = false; dashCdLabel.Visible = true; }
+        if (player.attackL1CooldownTimer.TimeLeft == 0) { boltReadySprite.Visible = true; boltCdLabel.Visible = false; }
+        else { boltReadySprite.Visible = false; boltCdLabel.Visible = true; }
 
-        dashCDLabel.Text = "Dash Cooldown: " + player.dashCooldown;
-        levelEnemiesLabel.Text = "Enemies left: " + levelManager.levelEnemiesLeft;
-        playerStateLabel.Text = "Player State: " + player.currentPlayerState;
-        usingControllerLabel.Text = "Using Controller: " + inputManager.UsingController();
+        stunDurationLabel.Text = Math.Round(player.stunDuration, 1).ToString();
+        dashCdLabel.Text = Math.Round((float)player.dashCooldown, 1).ToString();
+        boltCdLabel.Text = Math.Round((float)player.boltCd, 1).ToString();
     }
 }

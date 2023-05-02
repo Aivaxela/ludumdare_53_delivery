@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpipqxtnthrwf"]
+[gd_scene load_steps=10 format=3 uid="uid://cotey5fh7wk78"]
 
 [ext_resource type="Texture2D" uid="uid://dljpj2aeprbh2" path="res://assets/splash-black.png" id="1_votbn"]
 [ext_resource type="Texture2D" uid="uid://cgaleti8kgur8" path="res://assets/splash-aiva.png" id="2_an2ev"]
@@ -217,9 +217,8 @@ _data = {
 "default": SubResource("Animation_or10y")
 }
 
-[node name="intro-splash" type="Node" node_paths=PackedStringArray("animationPlayer")]
+[node name="intro-splash" type="Node"]
 script = SubResource("CSharpScript_sogr0")
-animationPlayer = NodePath("AnimationPlayer")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

@@ -16,16 +16,19 @@ public partial class Player : CharacterBody2D
     [Export] Area2D enemyArea;
     [Export] Timer recollectPackageTimer;
     [Export] Timer dashTimer;
-    [Export] Timer dashCooldownTimer;
+    [Export] public Timer dashCooldownTimer;
     [Export] Timer attackCooldownTimer;
+    [Export] public Timer attackL1CooldownTimer;
     [Export] Timer stunMaxRemovalTimer;
     [Export] public Timer stunnedTimer;
     [Export] Timer stunCooldownTimer;
     [Export] PackedScene attack;
+    [Export] PackedScene attackL1;
     [Export] PackedScene package;
     [Export] Sprite2D spriteBody;
     [Export] GpuParticles2D stunParticles;
     [Export] AudioStreamPlayer storkBlastSFX;
+    [Export] AudioStreamPlayer storkBoltSFX;
     [Export] AudioStreamPlayer stunnedSFX;
 
     [Export] public int dashCooldown;
@@ -38,6 +41,7 @@ public partial class Player : CharacterBody2D
     Vector2 dashDirection;
     Vector2 mouseVector;
     public float stunDuration = 1f;
+    public float boltCd = 5f;
     bool nearPackage = false;
     bool stunned = false;
     bool dashing = false;
@@ -65,6 +69,7 @@ public partial class Player : CharacterBody2D
         {
             direction.X = Input.GetActionStrength("move-right") - Input.GetActionStrength("move-left");
             dashCooldown = (int)dashCooldownTimer.TimeLeft;
+            boltCd = (int)attackL1CooldownTimer.TimeLeft;
         }
 
         switch (currentPlayerState)
@@ -95,6 +100,17 @@ public partial class Player : CharacterBody2D
             GetParent().AddChild(newAttack);
             newAttack.GlobalPosition = GlobalPosition;
             attackCooldownTimer.Start();
+        }
+
+        if (Input.IsActionPressed("stork-bolt") && attackL1CooldownTimer.TimeLeft == 0 && !end && !stunned && !dashing)
+        {
+            storkBoltSFX.PitchScale = (float)GD.RandRange(0.8f, 1.2f);
+            storkBoltSFX.Play();
+            DropPackage();
+            CharacterBody2D newAttack = (CharacterBody2D)attackL1.Instantiate();
+            GetParent().AddChild(newAttack);
+            newAttack.GlobalPosition = GlobalPosition;
+            attackL1CooldownTimer.Start();
         }
 
         if (Input.IsActionJustPressed("toggle-package") && !end)

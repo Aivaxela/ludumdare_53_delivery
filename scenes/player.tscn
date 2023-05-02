@@ -1,9 +1,10 @@
-[gd_scene load_steps=43 format=3 uid="uid://bqcklsvd0xq8o"]
+[gd_scene load_steps=45 format=3 uid="uid://bqcklsvd0xq8o"]
 
 [ext_resource type="Texture2D" uid="uid://c456uddp7x767" path="res://assets/stork/body.png" id="1_8yrxg"]
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_tjnak"]
 [ext_resource type="Texture2D" uid="uid://co2tx5vk0uxva" path="res://assets/stork/head.png" id="2_dh31o"]
 [ext_resource type="PackedScene" uid="uid://bbjdyxl67t2ub" path="res://scenes/stork-blast.tscn" id="2_xafyu"]
+[ext_resource type="PackedScene" uid="uid://s2gro67b2vwe" path="res://scenes/stork-bolt.tscn" id="3_h3e1r"]
 [ext_resource type="PackedScene" uid="uid://pw6id8b84tgy" path="res://scenes/package.tscn" id="3_mxt3v"]
 [ext_resource type="Texture2D" uid="uid://cbrcqnt8iyqys" path="res://assets/stork/legs.png" id="4_i23t8"]
 [ext_resource type="Texture2D" uid="uid://6528rxeaw6bo" path="res://assets/stork/wing.png" id="5_0xppl"]
@@ -13,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cxc4nb2wm3a32" path="res://assets/stun-effects.png" id="11_o4kkt"]
 [ext_resource type="AudioStream" uid="uid://c76xmobmca2i6" path="res://sfx/stork-blast.wav" id="12_bk5m4"]
 [ext_resource type="AudioStream" uid="uid://cv4jbwbjieroj" path="res://sfx/stunned.wav" id="13_lr3p6"]
+[ext_resource type="AudioStream" uid="uid://dtlht624tykk8" path="res://sfx/stork-bolt.wav" id="14_niajf"]
 
 [sub_resource type="Animation" id="Animation_kcpwu"]
 length = 0.001
@@ -1800,7 +1802,7 @@ scale_curve = SubResource("CurveTexture_viwej")
 color_ramp = SubResource("GradientTexture1D_vu7r3")
 anim_offset_max = 1.0
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer", "packageArea", "enemyArea", "recollectPackageTimer", "dashTimer", "dashCooldownTimer", "attackCooldownTimer", "stunMaxRemovalTimer", "stunnedTimer", "stunCooldownTimer", "spriteBody", "stunParticles", "storkBlastSFX", "stunnedSFX")]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer", "packageArea", "enemyArea", "recollectPackageTimer", "dashTimer", "dashCooldownTimer", "attackCooldownTimer", "attackL1CooldownTimer", "stunMaxRemovalTimer", "stunnedTimer", "stunCooldownTimer", "spriteBody", "stunParticles", "storkBlastSFX", "storkBoltSFX", "stunnedSFX")]
 position = Vector2(-0.499435, 0)
 collision_mask = 4
 script = ExtResource("1_tjnak")
@@ -1815,14 +1817,17 @@ recollectPackageTimer = NodePath("timers/recollect-package-timer")
 dashTimer = NodePath("timers/dash-timer")
 dashCooldownTimer = NodePath("timers/dash-cooldown-timer")
 attackCooldownTimer = NodePath("timers/attack-cooldown-timer")
+attackL1CooldownTimer = NodePath("timers/attack-L1-cooldown-timer")
 stunMaxRemovalTimer = NodePath("timers/stun-max-removal")
 stunnedTimer = NodePath("timers/stunned-timer")
 stunCooldownTimer = NodePath("timers/stun-cooldown")
 attack = ExtResource("2_xafyu")
+attackL1 = ExtResource("3_h3e1r")
 package = ExtResource("3_mxt3v")
 spriteBody = NodePath("body")
 stunParticles = NodePath("stun-particles")
 storkBlastSFX = NodePath("stork-blast")
+storkBoltSFX = NodePath("stork-bolt")
 stunnedSFX = NodePath("stunned")
 dashCooldown = 5
 
@@ -1840,7 +1845,11 @@ wait_time = 5.0
 one_shot = true
 
 [node name="attack-cooldown-timer" type="Timer" parent="timers"]
-wait_time = 0.12
+wait_time = 0.22
+one_shot = true
+
+[node name="attack-L1-cooldown-timer" type="Timer" parent="timers"]
+wait_time = 7.0
 one_shot = true
 
 [node name="stunned-timer" type="Timer" parent="timers"]
@@ -1921,6 +1930,10 @@ lifetime = 1.5
 
 [node name="stork-blast" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_bk5m4")
+volume_db = -5.0
+
+[node name="stork-bolt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_niajf")
 volume_db = -5.0
 
 [node name="stunned" type="AudioStreamPlayer" parent="."]

@@ -135,14 +135,14 @@ height = 28.0
 offsets = PackedFloat32Array(0, 0.810323, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0.368627, 0.368627, 0.368627, 1, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8u5bt"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_16srg"]
 gradient = SubResource("Gradient_t8y5k")
 
 [sub_resource type="Curve" id="Curve_xnuir"]
 _data = [Vector2(0, 0.8213), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_2tljt"]
+[sub_resource type="CurveTexture" id="CurveTexture_tv6gv"]
 curve = SubResource("Curve_xnuir")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h477w"]
@@ -155,8 +155,8 @@ initial_velocity_min = 100.0
 initial_velocity_max = 100.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
-scale_curve = SubResource("CurveTexture_2tljt")
-color_ramp = SubResource("GradientTexture1D_8u5bt")
+scale_curve = SubResource("CurveTexture_tv6gv")
+color_ramp = SubResource("GradientTexture1D_16srg")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_klcou"]
 particles_animation = true
@@ -168,7 +168,7 @@ particles_anim_loop = false
 offsets = PackedFloat32Array(0, 0.768035, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0.886275, 0.231373, 0.231373, 1, 0.84956, 3.29696e-06, 1.54018e-06, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_11xuw"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pvcyj"]
 gradient = SubResource("Gradient_gdw2i")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ym3a3"]
@@ -181,7 +181,7 @@ angular_velocity_min = -500.0
 angular_velocity_max = 500.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
-color_ramp = SubResource("GradientTexture1D_11xuw")
+color_ramp = SubResource("GradientTexture1D_pvcyj")
 anim_offset_max = 1.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4xjqq"]
@@ -194,6 +194,8 @@ collision_mask = 0
 script = ExtResource("1_bn4n6")
 cruiseSpeedMin = 50
 cruiseSpeedMax = 200
+timeUntilLaunchMin = 1
+timeUntilLaunchMax = 4
 launchSpeed = 500.0
 hp = 3
 timeUntilLaunchTimer = NodePath("time-until-launch")
@@ -204,7 +206,7 @@ animationPlayer = NodePath("AnimationPlayer")
 playerAttackArea = NodePath("player-attack-area")
 hitMarker = ExtResource("2_45x7u")
 deathSFX = NodePath("death")
-dashSFX = NodePath("dash")
+dashSFX = NodePath("splash")
 deathParticles = NodePath("deathParticles")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -267,6 +269,6 @@ debug_color = Color(0.862745, 0.34902, 0.239216, 0.419608)
 [node name="death" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_hwedp")
 
-[node name="dash" type="AudioStreamPlayer" parent="."]
+[node name="splash" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_dbj0m")
 volume_db = -5.0

@@ -19,4 +19,9 @@ public partial class End : Node
         GetParent().AddChild(packageSprite);
         packageSprite.GlobalPosition = player.GlobalPosition;
     }
+
+    public void LoadEndScene()
+    {
+        GetTree().ChangeSceneToFile("res://scenes/end-bg.tscn");
+    }
 }

@@ -5,14 +5,17 @@ public partial class GameOver : CanvasLayer
 {
     [Export] Button retryButton;
 
+    LevelManager levelManager;
+
 
     public override void _Ready()
     {
         retryButton.Pressed += OnRetryButtonPressed;
+        levelManager = GetNode<LevelManager>("/root/LevelManager");
     }
 
     private void OnRetryButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/main.tscn");
+        levelManager.RetryLevel();
     }
 }

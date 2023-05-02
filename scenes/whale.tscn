@@ -1,0 +1,130 @@
+[gd_scene load_steps=19 format=3 uid="uid://bx6p0w3fsp7pt"]
+
+[ext_resource type="Script" path="res://scripts/Whale.cs" id="1_w22nr"]
+[ext_resource type="Texture2D" uid="uid://b6oevcypvcjui" path="res://assets/goat-sucker/goat-sucker-fx.png" id="2_5gogw"]
+[ext_resource type="PackedScene" uid="uid://c3kpe5tk7tou1" path="res://scenes/hit-marker.tscn" id="2_hnxyx"]
+[ext_resource type="Texture2D" uid="uid://7j62pjn1u85w" path="res://assets/whale-sheet.png" id="4_3hn60"]
+[ext_resource type="Texture2D" uid="uid://fr6sfvsfmykc" path="res://assets/whale.png" id="4_ff4lp"]
+[ext_resource type="AudioStream" uid="uid://5qlqnhxhu3s0" path="res://sfx/goat-sucker-death.wav" id="5_ng7op"]
+[ext_resource type="AudioStream" uid="uid://ciopyb3dar01p" path="res://sfx/goat-sucker-dash.wav" id="6_2m7s8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2hypt"]
+radius = 25.0
+height = 190.0
+
+[sub_resource type="Gradient" id="Gradient_eynoa"]
+offsets = PackedFloat32Array(0, 0.810323, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.368627, 0.368627, 0.368627, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8u5bt"]
+gradient = SubResource("Gradient_eynoa")
+
+[sub_resource type="Curve" id="Curve_a5bdy"]
+_data = [Vector2(0, 0.8213), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2tljt"]
+curve = SubResource("Curve_a5bdy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4dnww"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_2tljt")
+color_ramp = SubResource("GradientTexture1D_8u5bt")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_q751m"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_8ndhe"]
+offsets = PackedFloat32Array(0, 0.768035, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.886275, 0.231373, 0.231373, 1, 0.84956, 3.29696e-06, 1.54018e-06, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_11xuw"]
+gradient = SubResource("Gradient_8ndhe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vo7g4"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 450, 0)
+initial_velocity_min = -300.0
+initial_velocity_max = 500.0
+angular_velocity_min = -500.0
+angular_velocity_max = 500.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_11xuw")
+anim_offset_max = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fyltp"]
+radius = 25.0
+height = 190.0
+
+[node name="whale" type="CharacterBody2D" node_paths=PackedStringArray("playerAttackArea", "splashFX", "deathSFX", "deathParticles", "timeUntilDestroyTimer")]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_w22nr")
+launchSpeed = 200.0
+hp = 10
+speedDelta = 0.03
+playerAttackArea = NodePath("player-attack-area")
+hitMarker = ExtResource("2_hnxyx")
+splashFX = NodePath("dash")
+deathSFX = NodePath("death")
+deathParticles = NodePath("deathParticles")
+timeUntilDestroyTimer = NodePath("time-until-destroy")
+
+[node name="time-until-destroy" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2hypt")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, 3)
+rotation = 0.00122897
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_4dnww")
+texture = ExtResource("2_5gogw")
+lifetime = 0.25
+preprocess = 1.0
+fixed_fps = 15
+
+[node name="deathParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_q751m")
+emitting = false
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_vo7g4")
+texture = ExtResource("4_3hn60")
+one_shot = true
+explosiveness = 0.8
+
+[node name="body" type="Sprite2D" parent="."]
+texture = ExtResource("4_ff4lp")
+
+[node name="player-attack-area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player-attack-area"]
+shape = SubResource("CapsuleShape2D_fyltp")
+debug_color = Color(0.862745, 0.34902, 0.239216, 0.419608)
+
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ng7op")
+
+[node name="dash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_2m7s8")
+volume_db = -5.0

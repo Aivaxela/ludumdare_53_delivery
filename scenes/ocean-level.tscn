@@ -1,0 +1,206 @@
+[gd_scene load_steps=24 format=3 uid="uid://scwlg10dlfvh"]
+
+[ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="1_ilw5h"]
+[ext_resource type="Script" path="res://scripts/MainCamera.cs" id="3_v2fq0"]
+[ext_resource type="Texture2D" uid="uid://opqkmov0u56e" path="res://assets/flower_petal.png" id="5_yqbxt"]
+[ext_resource type="PackedScene" uid="uid://bx6p0w3fsp7pt" path="res://scenes/whale.tscn" id="6_87h4u"]
+[ext_resource type="Texture2D" uid="uid://dpqxebqe7hnrt" path="res://assets/clouds.png" id="6_f3g6d"]
+[ext_resource type="PackedScene" uid="uid://d1sbnwgrqeebk" path="res://scenes/goat-sucker-ocean.tscn" id="6_qguf8"]
+[ext_resource type="PackedScene" uid="uid://blw6ige0nn65k" path="res://scenes/spawn.tscn" id="7_dbksw"]
+[ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="8_50juf"]
+[ext_resource type="PackedScene" uid="uid://ip886gnk6216" path="res://scenes/parallax-background-ocean.tscn" id="8_eafv0"]
+[ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="9_2fluh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
+size = Vector2(980, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lw4xe"]
+size = Vector2(980, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ekuk"]
+size = Vector2(10, 1050)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmirw"]
+size = Vector2(10, 1050)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fy4cm"]
+size = Vector2(940, 20)
+
+[sub_resource type="Gradient" id="Gradient_56wj5"]
+offsets = PackedFloat32Array(0, 0.758085, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x4hy0"]
+gradient = SubResource("Gradient_56wj5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cdjcw"]
+emission_shape = 3
+emission_box_extents = Vector3(1000, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(-2, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 130.0
+angular_velocity_min = -70.0
+angular_velocity_max = 70.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.3
+scale_max = 0.6
+color = Color(1, 1, 1, 0.823529)
+color_ramp = SubResource("GradientTexture1D_x4hy0")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tolwb"]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_nsbr7"]
+offsets = PackedFloat32Array(0, 0.38495, 0.715796, 1)
+colors = PackedColorArray(1, 1, 1, 0.678431, 1, 1, 1, 0.780392, 1, 1, 1, 0.756863, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fwh33"]
+gradient = SubResource("Gradient_nsbr7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cnpo1"]
+emission_shape = 3
+emission_box_extents = Vector3(50, 200, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 3.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 120.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0.933333, 1, 1, 1)
+color_ramp = SubResource("GradientTexture1D_fwh33")
+anim_offset_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_opsi4"]
+shader = ExtResource("9_2fluh")
+shader_parameter/color = Color(1, 1, 0, 1)
+shader_parameter/multiplier = 0.06
+shader_parameter/softness = 3.0
+
+[node name="main" type="Node"]
+
+[node name="UI" parent="." instance=ExtResource("1_ilw5h")]
+
+[node name="borders" type="Node" parent="."]
+
+[node name="top-border" type="StaticBody2D" parent="borders" groups=["borders", "top-border"]]
+collision_layer = 20
+collision_mask = 0
+
+[node name="top" type="CollisionShape2D" parent="borders/top-border"]
+position = Vector2(0, -265)
+shape = SubResource("RectangleShape2D_i8hu8")
+
+[node name="bottom-border" type="StaticBody2D" parent="borders" groups=["borders", "bottom-border"]]
+collision_layer = 20
+collision_mask = 0
+
+[node name="bottom" type="CollisionShape2D" parent="borders/bottom-border"]
+position = Vector2(0, 265)
+shape = SubResource("RectangleShape2D_lw4xe")
+
+[node name="side-borders" type="StaticBody2D" parent="borders" groups=["borders", "side-border"]]
+collision_layer = 84
+collision_mask = 0
+
+[node name="left" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(-475, -175)
+shape = SubResource("RectangleShape2D_5ekuk")
+
+[node name="right" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(475, -175)
+shape = SubResource("RectangleShape2D_fmirw")
+
+[node name="package-lose-limit" type="Area2D" parent="borders"]
+position = Vector2(0, 320)
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="borders/package-lose-limit"]
+shape = SubResource("RectangleShape2D_fy4cm")
+debug_color = Color(0.556863, 0.462745, 0.831373, 0.419608)
+
+[node name="mainCam" type="Camera2D" parent="."]
+script = ExtResource("3_v2fq0")
+
+[node name="petal-particles" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(150, -300)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_cdjcw")
+texture = ExtResource("5_yqbxt")
+lifetime = 15.0
+preprocess = 20.0
+
+[node name="cloudParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_tolwb")
+position = Vector2(650, -195)
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_cnpo1")
+texture = ExtResource("6_f3g6d")
+lifetime = 15.0
+preprocess = 15.0
+visibility_rect = Rect2(-5000, -100, 5000, 200)
+
+[node name="enemy-spawn-points" type="Node" parent="."]
+
+[node name="spawn" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+spawnRateMax = 7
+enemyScene = ExtResource("6_qguf8")
+
+[node name="spawn2" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(525, -175)
+spawnRateMax = 7
+enemyScene = ExtResource("6_qguf8")
+
+[node name="spawn3" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(525, -125)
+spawnRateMax = 7
+enemyScene = ExtResource("6_qguf8")
+
+[node name="spawn4" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(525, -75)
+spawnRateMax = 7
+enemyScene = ExtResource("6_qguf8")
+
+[node name="spawn5" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(-300, 475)
+spawnRateMin = 5
+enemyScene = ExtResource("6_87h4u")
+
+[node name="spawn6" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(-100, 475)
+spawnRateMin = 5
+enemyScene = ExtResource("6_87h4u")
+
+[node name="spawn7" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(50, 475)
+spawnRateMin = 5
+enemyScene = ExtResource("6_87h4u")
+
+[node name="spawn8" parent="enemy-spawn-points" instance=ExtResource("7_dbksw")]
+position = Vector2(250, 475)
+spawnRateMin = 5
+enemyScene = ExtResource("6_87h4u")
+
+[node name="player" parent="." instance=ExtResource("8_50juf")]
+position = Vector2(-400, 0)
+
+[node name="vignette" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="vignette"]
+material = SubResource("ShaderMaterial_opsi4")
+use_parent_material = true
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0, 0, 0, 1)
+
+[node name="backgrounds" parent="." instance=ExtResource("8_eafv0")]

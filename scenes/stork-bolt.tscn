@@ -1,0 +1,142 @@
+[gd_scene load_steps=20 format=3 uid="uid://s2gro67b2vwe"]
+
+[ext_resource type="Script" path="res://scripts/Attack.cs" id="1_gqx6y"]
+[ext_resource type="Texture2D" uid="uid://crym117ni6fxu" path="res://assets/attacks/wind-ball-effects-2.png" id="2_krggo"]
+[ext_resource type="Texture2D" uid="uid://ciy1no82p2w7f" path="res://assets/attacks/wind-ball.png" id="3_7ylbk"]
+[ext_resource type="Texture2D" uid="uid://dwaxlv8wsq34d" path="res://assets/attacks/wind-ball-shockwave.png" id="4_lxixv"]
+
+[sub_resource type="Animation" id="Animation_ltp36"]
+resource_name = "default"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gwso8"]
+_data = {
+"default": SubResource("Animation_ltp36")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nr3uh"]
+radius = 15.7143
+height = 50.6667
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2avm0"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0i2tk"]
+particle_flag_disable_z = true
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = -120.0
+initial_velocity_max = -50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(1, 1, 1, 0.654902)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep13d"]
+atlas = ExtResource("3_7ylbk")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rd56i"]
+atlas = ExtResource("3_7ylbk")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0yny"]
+atlas = ExtResource("3_7ylbk")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_seny6"]
+atlas = ExtResource("3_7ylbk")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ui1v6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep13d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rd56i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0yny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_seny6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_nd3s4"]
+offsets = PackedFloat32Array(0.00186567, 0.166045, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mrpnc"]
+gradient = SubResource("Gradient_nd3s4")
+
+[sub_resource type="Curve" id="Curve_bhpao"]
+max_value = 4.0
+_data = [Vector2(0, 1.72563), 0.0, 0.0, 0, 0, Vector2(0.163832, 4), 0.0, 0.0, 0, 0, Vector2(0.544785, 1.89892), 0.0, 0.0, 0, 0, Vector2(0.996032, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_h65sl"]
+curve = SubResource("Curve_bhpao")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_43jes"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_h65sl")
+color_ramp = SubResource("GradientTexture1D_mrpnc")
+
+[node name="stork-blast" type="CharacterBody2D" node_paths=PackedStringArray("untilDestoryTimer")]
+scale = Vector2(3, 3.5)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_gqx6y")
+projectileSpeed = 650.0
+isBolt = true
+untilDestoryTimer = NodePath("until-destroy")
+
+[node name="until-destroy" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gwso8")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_nr3uh")
+
+[node name="mist" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_2avm0")
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_0i2tk")
+texture = ExtResource("2_krggo")
+lifetime = 0.5
+local_coords = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ui1v6")
+autoplay = "default"
+frame_progress = 0.890995
+
+[node name="shockwave" type="GPUParticles2D" parent="."]
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_43jes")
+texture = ExtResource("4_lxixv")
+lifetime = 0.4

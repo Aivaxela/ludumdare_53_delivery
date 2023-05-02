@@ -1,0 +1,531 @@
+[gd_scene load_steps=31 format=3 uid="uid://v6ctr62scq4m"]
+
+[ext_resource type="PackedScene" uid="uid://cx2phey8s3yn7" path="res://scenes/ui.tscn" id="1_gh3x3"]
+[ext_resource type="Script" path="res://scripts/Main.cs" id="1_te7vc"]
+[ext_resource type="Script" path="res://scripts/MainCamera.cs" id="3_h0esu"]
+[ext_resource type="Texture2D" uid="uid://dpqxebqe7hnrt" path="res://assets/clouds.png" id="5_7pktu"]
+[ext_resource type="Texture2D" uid="uid://opqkmov0u56e" path="res://assets/flower_petal.png" id="6_tkvjm"]
+[ext_resource type="PackedScene" uid="uid://blw6ige0nn65k" path="res://scenes/spawn.tscn" id="7_gqb3v"]
+[ext_resource type="PackedScene" uid="uid://vbsnohy88ddx" path="res://scenes/goat-sucker-intro.tscn" id="7_vap5q"]
+[ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="8_ej1kh"]
+[ext_resource type="Texture2D" uid="uid://bs820tgdtga5c" path="res://assets/intro-level-sidepanel.png" id="9_i8qpt"]
+[ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="9_n8b2m"]
+[ext_resource type="FontFile" uid="uid://b0lvljdvv0ujl" path="res://fonts/dum1.ttf" id="10_rn0tm"]
+[ext_resource type="PackedScene" uid="uid://d1643t4upp0yh" path="res://scenes/parallax-background-intro.tscn" id="10_wjp1k"]
+[ext_resource type="FontFile" uid="uid://bfnyxermn6tha" path="res://fonts/BD_Cartoon_Shout.ttf" id="11_3yqtk"]
+
+[sub_resource type="Animation" id="Animation_6x3vd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("vignette/side-panel/intro-story:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(810, -735)]
+}
+
+[sub_resource type="Animation" id="Animation_b5fe3"]
+resource_name = "default"
+length = 92.0
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("vignette/side-panel/intro-story:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(45, 92),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(810, 800), Vector2(810, -735)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("tutorial-messages/movement:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 6, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("tutorial-messages/shooting:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 7, 8, 14, 15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("tutorial-messages/package:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 9, 10, 14, 15),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("tutorial-messages/dash:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 14, 15, 21, 22),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("tutorial-messages/enemies:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 22, 23, 29, 30),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("tutorial-messages/enemies2:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 30, 31, 37, 38),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("tutorial-messages/win:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 38, 39, 44, 45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("vignette/side-panel:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 44, 45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(92),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"EndIntroLevel"
+}]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("enemy-spawn-points/spawn2:canSpawn")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 33.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("enemy-spawn-points/spawn3:canSpawn")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 33.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("enemy-spawn-points/spawn4:canSpawn")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 33.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("enemy-spawn-points/spawn5:canSpawn")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 33.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a4t6h"]
+_data = {
+"RESET": SubResource("Animation_6x3vd"),
+"default": SubResource("Animation_b5fe3")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8hu8"]
+size = Vector2(980, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ekuk"]
+size = Vector2(10, 1050)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmirw"]
+size = Vector2(10, 1050)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fy4cm"]
+size = Vector2(940, 20)
+
+[sub_resource type="Gradient" id="Gradient_56wj5"]
+offsets = PackedFloat32Array(0, 0.758085, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x4hy0"]
+gradient = SubResource("Gradient_56wj5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cdjcw"]
+emission_shape = 3
+emission_box_extents = Vector3(1000, 1, 1)
+particle_flag_disable_z = true
+direction = Vector3(-2, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 130.0
+angular_velocity_min = -70.0
+angular_velocity_max = 70.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.3
+scale_max = 0.6
+color = Color(1, 1, 0, 0.823529)
+color_ramp = SubResource("GradientTexture1D_x4hy0")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hh0xx"]
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_drd4b"]
+offsets = PackedFloat32Array(0, 0.38495, 0.715796, 1)
+colors = PackedColorArray(1, 0.788235, 1, 0.678431, 1, 0.772549, 0.654902, 0.780392, 1, 0.784314, 1, 0.756863, 1, 0.878431, 0.803922, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1h5wd"]
+gradient = SubResource("Gradient_drd4b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sh7su"]
+emission_shape = 3
+emission_box_extents = Vector3(50, 200, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 3.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 120.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color_ramp = SubResource("GradientTexture1D_1h5wd")
+anim_offset_max = 1.0
+
+[sub_resource type="FontVariation" id="FontVariation_vpasm"]
+base_font = ExtResource("11_3yqtk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_opsi4"]
+shader = ExtResource("9_n8b2m")
+shader_parameter/color = Color(1, 0.627451, 0, 1)
+shader_parameter/multiplier = 0.06
+shader_parameter/softness = 2.5
+
+[sub_resource type="FontVariation" id="FontVariation_nux2h"]
+base_font = ExtResource("10_rn0tm")
+
+[node name="main" type="Node"]
+script = ExtResource("1_te7vc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+libraries = {
+"": SubResource("AnimationLibrary_a4t6h")
+}
+
+[node name="UI" parent="." instance=ExtResource("1_gh3x3")]
+
+[node name="borders" type="Node" parent="."]
+
+[node name="top-border" type="StaticBody2D" parent="borders" groups=["borders", "top-border"]]
+collision_layer = 20
+collision_mask = 0
+
+[node name="top" type="CollisionShape2D" parent="borders/top-border"]
+position = Vector2(0, -265)
+shape = SubResource("RectangleShape2D_i8hu8")
+
+[node name="side-borders" type="StaticBody2D" parent="borders" groups=["borders", "side-border"]]
+collision_layer = 84
+collision_mask = 0
+
+[node name="left" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(-475, -175)
+shape = SubResource("RectangleShape2D_5ekuk")
+
+[node name="right" type="CollisionShape2D" parent="borders/side-borders"]
+position = Vector2(155, -175)
+shape = SubResource("RectangleShape2D_fmirw")
+
+[node name="bottom-border2" type="StaticBody2D" parent="borders" groups=["borders", "side-border"]]
+position = Vector2(-25, -200)
+rotation = -1.57002
+collision_layer = 84
+collision_mask = 0
+
+[node name="bottom" type="CollisionShape2D" parent="borders/bottom-border2"]
+position = Vector2(-475, -175)
+shape = SubResource("RectangleShape2D_5ekuk")
+
+[node name="package-lose-limit" type="Area2D" parent="borders"]
+position = Vector2(0, 320)
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="borders/package-lose-limit"]
+shape = SubResource("RectangleShape2D_fy4cm")
+debug_color = Color(0.556863, 0.462745, 0.831373, 0.419608)
+
+[node name="mainCam" type="Camera2D" parent="."]
+script = ExtResource("3_h0esu")
+
+[node name="petal-particles" type="GPUParticles2D" parent="."]
+position = Vector2(150, -300)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_cdjcw")
+texture = ExtResource("6_tkvjm")
+lifetime = 15.0
+preprocess = 20.0
+
+[node name="cloudParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_hh0xx")
+position = Vector2(650, -195)
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_sh7su")
+texture = ExtResource("5_7pktu")
+lifetime = 15.0
+preprocess = 15.0
+visibility_rect = Rect2(-5000, -100, 5000, 200)
+
+[node name="tutorial-messages" type="Node2D" parent="."]
+position = Vector2(-525, -250)
+
+[node name="movement" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 698.0
+offset_bottom = 153.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "WASD, D-pad or Left Joystick to move"
+
+[node name="shooting" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 698.0
+offset_bottom = 153.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "left-click, X (PS) or A (XB) to shoot
+F or L1 to use Stork Blast!"
+
+[node name="package" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 170.0
+offset_right = 746.0
+offset_bottom = 214.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "Don't lose the package! 
+spacebar, square (PS), or X (XB) to collect"
+
+[node name="dash" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 818.0
+offset_bottom = 196.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "right-click, L2 or R2 to dash
+You can only dash when not holding the package
+Dashing into the package will collect it!"
+
+[node name="enemies" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 698.0
+offset_bottom = 196.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "When you are hit by an enemy,
+you are stunned for the time shown.
+You also drop the package!"
+
+[node name="enemies2" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 751.0
+offset_bottom = 218.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "Each time you are stunned, the duration
+of the stun increases.
+This duration will slowly decrease as you
+avoid getting hit."
+
+[node name="win" type="Label" parent="tutorial-messages"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 280.0
+offset_top = 130.0
+offset_right = 793.0
+offset_bottom = 153.0
+theme_override_fonts/font = SubResource("FontVariation_vpasm")
+text = "Defeat the required amount of enemies to win!"
+
+[node name="enemy-spawn-points" type="Node" parent="."]
+
+[node name="spawn2" parent="enemy-spawn-points" instance=ExtResource("7_gqb3v")]
+position = Vector2(525, -175)
+spawnRateMin = 26
+spawnRateMax = 26
+canSpawn = false
+enemyScene = ExtResource("7_vap5q")
+
+[node name="spawn3" parent="enemy-spawn-points" instance=ExtResource("7_gqb3v")]
+spawnRateMin = 31
+spawnRateMax = 37
+canSpawn = false
+enemyScene = ExtResource("7_vap5q")
+
+[node name="spawn4" parent="enemy-spawn-points" instance=ExtResource("7_gqb3v")]
+position = Vector2(525, -125)
+spawnRateMin = 36
+spawnRateMax = 41
+canSpawn = false
+enemyScene = ExtResource("7_vap5q")
+
+[node name="spawn5" parent="enemy-spawn-points" instance=ExtResource("7_gqb3v")]
+position = Vector2(525, -75)
+spawnRateMin = 41
+spawnRateMax = 47
+canSpawn = false
+enemyScene = ExtResource("7_vap5q")
+
+[node name="player" parent="." instance=ExtResource("8_ej1kh")]
+position = Vector2(-400, 0)
+
+[node name="vignette" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="vignette"]
+material = SubResource("ShaderMaterial_opsi4")
+use_parent_material = true
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0, 0, 0, 1)
+
+[node name="side-panel" type="Sprite2D" parent="vignette"]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("9_i8qpt")
+centered = false
+
+[node name="intro-story" type="Node2D" parent="vignette/side-panel"]
+position = Vector2(810, -735)
+
+[node name="Label" type="Label" parent="vignette/side-panel/intro-story"]
+offset_left = -140.0
+offset_top = -250.0
+offset_right = 212.0
+offset_bottom = 686.0
+size_flags_horizontal = 0
+theme_override_fonts/font = SubResource("FontVariation_nux2h")
+theme_override_font_sizes/font_size = 22
+text = "Looking deep into the Heavens,
+
+high above the clouds,
+
+
+Lies the Realm of the Stork.
+
+
+
+
+Within this realm exists a Power,
+
+a Power beyond comprehension,
+
+
+a Power that creates Life.
+
+
+
+
+Life bestowed upon the Fortunate,
+
+Life bequeathed to the Chosen,
+
+
+delivered by Beak to home.
+
+
+
+
+On this day,
+
+during the month of May,
+
+
+we witness one such delivery..."
+
+[node name="backgrounds" parent="." instance=ExtResource("10_wjp1k")]

@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://ducvasan1myv4"]
+[gd_scene load_steps=19 format=3 uid="uid://ducvasan1myv4"]
 
 [ext_resource type="Texture2D" uid="uid://b68vuha1o2uva" path="res://assets/stork-4k.png" id="1_aulh0"]
 [ext_resource type="Script" path="res://scripts/MainMenu.cs" id="1_efchb"]
 [ext_resource type="Texture2D" uid="uid://hwvdktoic65q" path="res://assets/main-menu-bg-sheet.png" id="1_xvxyb"]
 [ext_resource type="FontFile" uid="uid://wdwn75nycbva" path="res://fonts/Alice in Wonderland.ttf" id="3_3jr21"]
-[ext_resource type="AudioStream" uid="uid://f4tooixuosc0" path="res://music/sanctuary showdown intro.wav" id="4_dwd6o"]
 [ext_resource type="Texture2D" uid="uid://dljpj2aeprbh2" path="res://assets/splash-black.png" id="6_vaxvf"]
 [ext_resource type="Texture2D" uid="uid://cgaleti8kgur8" path="res://assets/splash-aiva.png" id="7_intx4"]
 [ext_resource type="Texture2D" uid="uid://bnechw11pr8r4" path="res://assets/splash-kb.png" id="8_oi4kc"]
@@ -273,7 +272,7 @@ visible = false
 follow_viewport_enabled = true
 
 [node name="title" type="Label" parent="CanvasLayer"]
-modulate = Color(0.647059, 0.215686, 0.12549, 1)
+modulate = Color(0.156863, 0.156863, 0.156863, 1)
 offset_left = -140.0
 offset_top = -260.0
 offset_right = 465.0
@@ -283,7 +282,7 @@ theme_override_font_sizes/font_size = 100
 text = "Beak & Bundle"
 
 [node name="start" type="Button" parent="CanvasLayer"]
-modulate = Color(0.321569, 0.184314, 0, 1)
+modulate = Color(0, 0, 0, 1)
 offset_left = -325.0
 offset_top = 185.0
 offset_right = -188.0
@@ -294,7 +293,7 @@ text = "Start"
 flat = true
 
 [node name="exit" type="Button" parent="CanvasLayer"]
-modulate = Color(0.321569, 0.184314, 0, 1)
+modulate = Color(0, 0, 0, 1)
 offset_left = -140.0
 offset_top = 185.0
 offset_right = -3.0
@@ -303,11 +302,6 @@ theme_override_fonts/font = SubResource("FontVariation_7oidt")
 theme_override_font_sizes/font_size = 60
 text = "Exit"
 flat = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_dwd6o")
-volume_db = 3.5
-autoplay = true
 
 [node name="black" type="TextureRect" parent="."]
 anchors_preset = 15

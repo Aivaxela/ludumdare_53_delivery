@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://mv8oaot74a14"]
+[gd_scene load_steps=12 format=3 uid="uid://mv8oaot74a14"]
 
 [ext_resource type="Script" path="res://scripts/End.cs" id="1_63i3o"]
-[ext_resource type="Texture2D" uid="uid://cxf5vsy2vr5b2" path="res://assets/bg.png" id="2_0hxef"]
+[ext_resource type="Texture2D" uid="uid://m4myig5a66ug" path="res://assets/bg-stars.png" id="2_3vov2"]
+[ext_resource type="Texture2D" uid="uid://2640megyf88m" path="res://assets/dialogue-backsplash.png" id="2_kuy06"]
+[ext_resource type="FontFile" uid="uid://b0lvljdvv0ujl" path="res://fonts/dum1.ttf" id="3_rtxuv"]
 [ext_resource type="Texture2D" uid="uid://bgedq6hic6oxx" path="res://assets/end-house.png" id="3_v2uw2"]
 [ext_resource type="PackedScene" uid="uid://bqcklsvd0xq8o" path="res://scenes/player.tscn" id="4_vrc25"]
+[ext_resource type="Texture2D" uid="uid://c3x534sud6odl" path="res://assets/black-bg.png" id="7_u3o1h"]
 
 [sub_resource type="Animation" id="Animation_junoc"]
 length = 0.001
@@ -34,7 +37,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_0uemm"]
 resource_name = "end"
-length = 18.0
+length = 100.0
+step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -42,10 +46,10 @@ tracks/0/path = NodePath("player:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 3, 3.57, 3.6, 9.61, 12, 12.5, 13, 13.5, 15.1, 15.5, 16.3, 17.2, 18),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(53, 56, 56.5, 63, 65, 65.5, 66, 66.5, 68.5, 69.5, 70.5, 71),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-415, -100), Vector2(-45, 185), Vector2(-45, 193), Vector2(-45, 193), Vector2(-45, 193), Vector2(-203.388, 155.711), Vector2(-224, 188), Vector2(-241, 160), Vector2(-271, 176), Vector2(-313, 124), Vector2(-352, 131), Vector2(-390, 114), Vector2(-418, 138), Vector2(-529, 88)]
+"values": [Vector2(-539, -100), Vector2(-45, 185), Vector2(-45, 193), Vector2(-45, 193), Vector2(-203.388, 155.711), Vector2(-224, 188), Vector2(-241, 160), Vector2(-271, 176), Vector2(-313, 124), Vector2(-390, 114), Vector2(-418, 138), Vector2(-529, 88)]
 }
 tracks/1/type = "animation"
 tracks/1/imported = false
@@ -54,8 +58,8 @@ tracks/1/path = NodePath("player/anim-player")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"clips": PackedStringArray("flying-idle-package", "RESET", "[stop]", "landed", "flying-idle-reverse"),
-"times": PackedFloat32Array(0, 3, 3.0001, 3.6, 9.61)
+"clips": PackedStringArray("flying-idle-package", "RESET", "landed", "flying-idle-reverse"),
+"times": PackedFloat32Array(53, 56, 56.5, 63)
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -64,7 +68,7 @@ tracks/2/path = NodePath("player:rotation")
 tracks/2/interp = 0
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.2, 3, 3.6, 9.61),
+"times": PackedFloat32Array(53, 55.5, 56, 56.5, 63),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.349066, 0.349066, 0.0, 0.0, -0.0872665]
@@ -76,11 +80,14 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(9.61),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(63, 80),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"PackageDelivered"
+}, {
+"args": [],
+"method": &"LoadEndScene"
 }]
 }
 tracks/4/type = "value"
@@ -90,7 +97,7 @@ tracks/4/path = NodePath("player/body:scale")
 tracks/4/interp = 0
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 9.61),
+"times": PackedFloat32Array(53, 63),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(-1, 1)]
@@ -99,25 +106,61 @@ tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/path = NodePath("Camera2D:zoom")
-tracks/5/interp = 2
+tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 9.6, 18),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(4, 9, 45, 53, 63, 71),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+"values": [Vector2(2, 2), Vector2(2, 2), Vector2(2, 2), Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/path = NodePath("Camera2D:position")
-tracks/6/interp = 2
+tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 9.6, 13, 15.1, 18),
+"times": PackedFloat32Array(4, 9, 45, 53, 63, 66, 68.5, 71),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(236, 69), Vector2(207, 69), Vector2(207, 69), Vector2(4, 0), Vector2(7, 44), Vector2(-44, 28), Vector2(-19, 10), Vector2(1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("dialogue-box:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(4, 9, 9.5, 14, 14.5, 15, 19, 19.5, 24, 24.5, 29, 29.5, 30, 34, 34.5, 39, 39.5, 40, 43.5, 45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("dialogue-box/Label:text")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(4, 14, 14.5, 19, 19.5, 24, 24.5, 29, 29.5, 34, 34.5, 39, 39.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["Is Mr. Stork going to visit us tonight Mommy?", "", "Well sweetie, it blessed us with you not so long ago.", "", "It's not too likely we'll get that lucky again...", "", "Besides, having a little sibling brings responsibility! You would have to look after them", "", "I really just think it would be so cool to have a friend around...I get lonely sometimes", "", "And I wouldn't mind taking care of them. I'd love them just as much as you and Daddy love me!", "", "I know you would dear. Time for bed now, let's cross our fingers for a visit tonight!"]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("black-bg:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 4, 73, 73.5, 77),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(4, 0), Vector2(7, 44), Vector2(-44, 28), Vector2(-19, 10), Vector2(1, 0)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_id3oj"]
@@ -125,6 +168,9 @@ _data = {
 "RESET": SubResource("Animation_junoc"),
 "end": SubResource("Animation_0uemm")
 }
+
+[sub_resource type="FontVariation" id="FontVariation_jwrul"]
+base_font = ExtResource("3_rtxuv")
 
 [node name="end" type="Node" node_paths=PackedStringArray("player", "packageSprite")]
 script = ExtResource("1_63i3o")
@@ -138,21 +184,64 @@ libraries = {
 }
 
 [node name="bg" type="Sprite2D" parent="."]
-texture = ExtResource("2_0hxef")
+texture = ExtResource("2_3vov2")
 
 [node name="end-house" type="Sprite2D" parent="."]
 texture = ExtResource("3_v2uw2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(6, 88)
-zoom = Vector2(1.15421, 1.15421)
 
 [node name="player" parent="." instance=ExtResource("4_vrc25")]
 position = Vector2(-224, 188)
 rotation = -0.0872665
 
+[node name="body" parent="player" index="5"]
+visible = false
+
+[node name="legs" parent="player/body" index="1"]
+position = Vector2(-4.04684, 12.1564)
+scale = Vector2(1.1, 0.9)
+
 [node name="wing" parent="player/body" index="2"]
-position = Vector2(0, -6)
-scale = Vector2(1, 0.5)
+position = Vector2(0, 12)
+scale = Vector2(1, -1)
+
+[node name="tail-feathers" parent="player/body" index="3"]
+position = Vector2(-22.3628, -1.64201)
+scale = Vector2(1.2, 0.95)
+
+[node name="package" parent="player/body" index="4"]
+position = Vector2(68.4507, 3.26662)
+
+[node name="animatedBody" parent="player" index="6"]
+visible = true
+frame = 2
+
+[node name="dialogue-box" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(208, 164)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_kuy06")
+
+[node name="Label" type="LineEdit" parent="dialogue-box"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -479.5
+offset_top = -81.0
+offset_right = -479.5
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("FontVariation_jwrul")
+theme_override_font_sizes/font_size = 25
+text = "I know you would dear. Time for bed now, let's cross our fingers for a visit tonight!"
+alignment = 1
+flat = true
+
+[node name="black-bg" type="Sprite2D" parent="."]
+texture = ExtResource("7_u3o1h")
 
 [editable path="player"]

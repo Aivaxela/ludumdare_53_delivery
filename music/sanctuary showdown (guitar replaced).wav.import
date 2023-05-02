@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://duw5u873815k2"
+path="res://.godot/imported/sanctuary showdown (guitar replaced).wav-6b1202a8f2bde6ba6cc4431fcebc012d.sample"
+
+[deps]
+
+source_file="res://music/sanctuary showdown (guitar replaced).wav"
+dest_files=["res://.godot/imported/sanctuary showdown (guitar replaced).wav-6b1202a8f2bde6ba6cc4431fcebc012d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

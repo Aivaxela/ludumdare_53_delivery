@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://ip886gnk6216"]
+
+[ext_resource type="Script" path="res://scripts/ParallaxBackground.cs" id="1_8f0v0"]
+[ext_resource type="Texture2D" uid="uid://6u6rymr1p3oh" path="res://assets/bg-ocean.png" id="2_oa6th"]
+[ext_resource type="Texture2D" uid="uid://bygrhdqe1mk38" path="res://assets/ocean-bg1.png" id="3_na6x1"]
+[ext_resource type="Texture2D" uid="uid://js32jthgj54d" path="res://assets/ocean-bg2.png" id="4_bchem"]
+[ext_resource type="Texture2D" uid="uid://bcru7hbx62ewx" path="res://assets/ocean-bg3.png" id="5_fme8m"]
+
+[node name="backgrounds" type="ParallaxBackground"]
+scroll_offset = Vector2(400, 0)
+script = ExtResource("1_8f0v0")
+xScrollSpeed = 0.4
+
+[node name="gradient-bg" type="Sprite2D" parent="."]
+texture = ExtResource("2_oa6th")
+centered = false
+
+[node name="bg-1" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(1.5, 0)
+motion_mirroring = Vector2(960, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="bg-1"]
+texture = ExtResource("3_na6x1")
+centered = false
+
+[node name="bg-2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(2, 0)
+motion_mirroring = Vector2(960, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="bg-2"]
+texture = ExtResource("4_bchem")
+centered = false
+
+[node name="bg-3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(2.5, 0)
+motion_mirroring = Vector2(960, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="bg-3"]
+texture = ExtResource("5_fme8m")
+centered = false

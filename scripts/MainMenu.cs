@@ -16,7 +16,7 @@ public partial class MainMenu : Node
 
     private void OnStartButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/main.tscn");
+        GetTree().ChangeSceneToFile("res://scenes/intro-level.tscn");
     }
     private void OnExitButtonPressed()
     {

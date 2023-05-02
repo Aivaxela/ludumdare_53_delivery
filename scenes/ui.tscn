@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx2phey8s3yn7"]
+[gd_scene load_steps=9 format=3 uid="uid://cx2phey8s3yn7"]
 
 [ext_resource type="Script" path="res://scripts/UserInterface.cs" id="1_ox568"]
 [ext_resource type="FontFile" uid="uid://bfnyxermn6tha" path="res://fonts/BD_Cartoon_Shout.ttf" id="2_h6pu5"]
 [ext_resource type="Texture2D" uid="uid://cykrkq3poavom" path="res://assets/dash-ready-feather.png" id="3_gqa4k"]
+[ext_resource type="Texture2D" uid="uid://ckc2aqn1p63g0" path="res://assets/stork-bolt-icon.png" id="4_oanox"]
+
+[sub_resource type="FontVariation" id="FontVariation_uwxen"]
+base_font = ExtResource("2_h6pu5")
 
 [sub_resource type="Animation" id="Animation_bkg8x"]
 resource_name = "stun-duration-changed"
@@ -50,71 +54,47 @@ _data = {
 "stun-duration-changed": SubResource("Animation_bkg8x")
 }
 
-[sub_resource type="FontVariation" id="FontVariation_uwxen"]
-base_font = ExtResource("2_h6pu5")
-
 [sub_resource type="FontVariation" id="FontVariation_p51ai"]
 base_font = ExtResource("2_h6pu5")
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("carryingPackageLabel", "dashCDLabel", "levelEnemiesLabel", "playerStateLabel", "usingControllerLabel", "animationPlayer", "stunDurationLabel", "stunDurAnimChangeTimer")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("animationPlayer", "stunDurationLabel", "dashCdLabel", "boltCdLabel", "stunDurAnimChangeTimer", "dashReadySprite", "boltReadySprite")]
 script = ExtResource("1_ox568")
-carryingPackageLabel = NodePath("carrying")
-dashCDLabel = NodePath("dash-cd")
-levelEnemiesLabel = NodePath("level-enemies")
-playerStateLabel = NodePath("state")
-usingControllerLabel = NodePath("using-controller")
 animationPlayer = NodePath("AnimationPlayer")
 stunDurationLabel = NodePath("stun-duration-label/stun-duration")
+dashCdLabel = NodePath("dash-cd")
+boltCdLabel = NodePath("bolt-cd")
 stunDurAnimChangeTimer = NodePath("stun-dur-anim-change-timer")
+dashReadySprite = NodePath("dash-ready-icon")
+boltReadySprite = NodePath("bolt-ready-icon")
+
+[node name="dash-cd" type="Label" parent="."]
+offset_left = 140.0
+offset_top = 5.0
+offset_right = 182.0
+offset_bottom = 21.0
+rotation = 0.245105
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 20
+text = "1.5 sec"
+
+[node name="bolt-cd" type="Label" parent="."]
+offset_left = 295.0
+offset_top = 15.0
+offset_right = 337.0
+offset_bottom = 31.0
+rotation = 0.245105
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 20
+text = "1.5 sec"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_uewot")
 }
-
-[node name="carrying" type="Label" parent="."]
-offset_left = 725.0
-offset_top = 5.0
-offset_right = 954.0
-offset_bottom = 36.0
-text = "You are carrying the package!"
-horizontal_alignment = 2
-
-[node name="dash-cd" type="Label" parent="."]
-offset_left = 725.0
-offset_top = 25.0
-offset_right = 954.0
-offset_bottom = 56.0
-text = "Dash: 5"
-horizontal_alignment = 2
-
-[node name="level-enemies" type="Label" parent="."]
-offset_left = 725.0
-offset_top = 45.0
-offset_right = 954.0
-offset_bottom = 76.0
-text = "Time: 999
-"
-horizontal_alignment = 2
-
-[node name="state" type="Label" parent="."]
-offset_left = 725.0
-offset_top = 65.0
-offset_right = 954.0
-offset_bottom = 96.0
-text = "Player state: FLYING
-"
-horizontal_alignment = 2
-
-[node name="using-controller" type="Label" parent="."]
-offset_left = 725.0
-offset_top = 85.0
-offset_right = 954.0
-offset_bottom = 137.0
-text = "Using controller: no
-
-"
-horizontal_alignment = 2
 
 [node name="stun-duration-label" type="Label" parent="."]
 offset_left = 10.0
@@ -130,6 +110,7 @@ text = "Stun
 Duration:"
 
 [node name="stun-duration" type="Label" parent="stun-duration-label"]
+layout_mode = 0
 offset_left = 7.82478
 offset_top = 39.5446
 offset_right = 276.825
@@ -155,6 +136,23 @@ rotation = 0.223092
 theme_override_fonts/font = SubResource("FontVariation_p51ai")
 theme_override_font_sizes/font_size = 12
 text = "Dash Ready!"
+
+[node name="bolt-ready-icon" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.882353)
+position = Vector2(310, 20)
+rotation = 0.252783
+texture = ExtResource("4_oanox")
+
+[node name="text" type="Label" parent="bolt-ready-icon"]
+modulate = Color(0, 0, 0, 1)
+offset_left = -38.0284
+offset_top = 1.95985
+offset_right = 108.972
+offset_bottom = 24.9598
+rotation = -0.00576803
+theme_override_fonts/font = SubResource("FontVariation_p51ai")
+theme_override_font_sizes/font_size = 12
+text = "Stork Bolt Ready!"
 
 [node name="stun-dur-anim-change-timer" type="Timer" parent="."]
 one_shot = true
