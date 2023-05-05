@@ -196,9 +196,6 @@ position = Vector2(6, 88)
 position = Vector2(-224, 188)
 rotation = -0.0872665
 
-[node name="body" parent="player" index="5"]
-visible = false
-
 [node name="legs" parent="player/body" index="1"]
 position = Vector2(-4.04684, 12.1564)
 scale = Vector2(1.1, 0.9)
@@ -215,7 +212,6 @@ scale = Vector2(1.2, 0.95)
 position = Vector2(68.4507, 3.26662)
 
 [node name="animatedBody" parent="player" index="6"]
-visible = true
 frame = 2
 
 [node name="dialogue-box" type="Sprite2D" parent="."]

@@ -7,6 +7,7 @@ public partial class UserInterface : CanvasLayer
     [Export] Label stunDurationLabel;
     [Export] Label dashCdLabel;
     [Export] Label boltCdLabel;
+    [Export] Label enemiesRemainingLabel;
     [Export] Timer stunDurAnimChangeTimer;
     [Export] Sprite2D dashReadySprite;
     [Export] Sprite2D boltReadySprite;
@@ -42,5 +43,6 @@ public partial class UserInterface : CanvasLayer
         stunDurationLabel.Text = Math.Round(player.stunDuration, 1).ToString();
         dashCdLabel.Text = Math.Round((float)player.dashCooldown, 1).ToString();
         boltCdLabel.Text = Math.Round((float)player.boltCd, 1).ToString();
+        enemiesRemainingLabel.Text = levelManager.levelEnemiesLeft.ToString();
     }
 }

@@ -58,7 +58,7 @@ public partial class Player : CharacterBody2D
 
         packageArea.BodyEntered += OnPackageAreaEntered;
         packageArea.BodyExited += OnPackageAreaExited;
-        enemyArea.BodyEntered += OnEnemyAreaEntered;
+        enemyArea.AreaEntered += OnEnemyAreaEntered;
     }
 
     public override void _Process(double delta)

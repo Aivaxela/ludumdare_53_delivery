@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d1sbnwgrqeebk"]
+[gd_scene load_steps=25 format=3 uid="uid://d1sbnwgrqeebk"]
 
 [ext_resource type="Script" path="res://scripts/GoatSucker.cs" id="1_5u0ey"]
 [ext_resource type="PackedScene" uid="uid://c3kpe5tk7tou1" path="res://scenes/hit-marker.tscn" id="2_swlxm"]
@@ -188,6 +188,10 @@ anim_offset_max = 1.0
 radius = 8.0
 height = 28.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ljoo6"]
+radius = 8.0
+height = 28.0
+
 [node name="goat-sucker-ocean" type="CharacterBody2D" node_paths=PackedStringArray("timeUntilLaunchTimer", "timeUntilDestroyTimer", "sprite", "wingSprite", "animationPlayer", "playerAttackArea", "deathSFX", "dashSFX", "deathParticles")]
 collision_layer = 32
 collision_mask = 0
@@ -274,3 +278,12 @@ stream = ExtResource("7_vmlyq")
 [node name="dash" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_7u51d")
 volume_db = -5.0
+
+[node name="player-hurt-area" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player-hurt-area"]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_ljoo6")
+debug_color = Color(0.862745, 0.34902, 0.239216, 0.419608)

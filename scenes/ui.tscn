@@ -57,12 +57,13 @@ _data = {
 [sub_resource type="FontVariation" id="FontVariation_p51ai"]
 base_font = ExtResource("2_h6pu5")
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("animationPlayer", "stunDurationLabel", "dashCdLabel", "boltCdLabel", "stunDurAnimChangeTimer", "dashReadySprite", "boltReadySprite")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("animationPlayer", "stunDurationLabel", "dashCdLabel", "boltCdLabel", "enemiesRemainingLabel", "stunDurAnimChangeTimer", "dashReadySprite", "boltReadySprite")]
 script = ExtResource("1_ox568")
 animationPlayer = NodePath("AnimationPlayer")
 stunDurationLabel = NodePath("stun-duration-label/stun-duration")
 dashCdLabel = NodePath("dash-cd")
 boltCdLabel = NodePath("bolt-cd")
+enemiesRemainingLabel = NodePath("enemies-remaining-label/enemies-remaining")
 stunDurAnimChangeTimer = NodePath("stun-dur-anim-change-timer")
 dashReadySprite = NodePath("dash-ready-icon")
 boltReadySprite = NodePath("bolt-ready-icon")
@@ -95,6 +96,37 @@ text = "1.5 sec"
 libraries = {
 "": SubResource("AnimationLibrary_uewot")
 }
+
+[node name="enemies-remaining-label" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -285.0
+offset_top = 25.0
+offset_right = -15.9999
+offset_bottom = 89.0
+grow_horizontal = 0
+rotation = -0.0715585
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 15
+text = "Enemies Remaining:"
+horizontal_alignment = 2
+
+[node name="enemies-remaining" type="Label" parent="enemies-remaining-label"]
+layout_mode = 0
+offset_left = 6.40609
+offset_top = 19.595
+offset_right = 275.406
+offset_bottom = 83.5954
+rotation = 0.0272196
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = SubResource("FontVariation_uwxen")
+theme_override_font_sizes/font_size = 35
+text = "18"
+horizontal_alignment = 2
 
 [node name="stun-duration-label" type="Label" parent="."]
 offset_left = 10.0
